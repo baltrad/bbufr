@@ -1,0 +1,107 @@
+OPERA BUFR software sample programs
+===================================
+
+Installation
+============
+
+The following libraries are needed to build all the programs:
+
+* zlib
+
+* PNG 
+
+* PROJ4; some graphical programs in the package, which are handling
+  polar data, use a modified library, available here:
+  http://www.knmi.nl/opera/odc/proj-4.4.9polar.tar.gz
+
+* HDF5 (series 1.6.x or 1.8.x)
+
+OPERA BUFR software 3.1 and OPERA BUFR tables up to 8 are included.
+
+To install, go in directory bufr-opera-mf-XX
+(XX is the release number), and run:
+./configure --prefix=$HOME
+make
+(cd tests; make check)
+make install
+
+'make check' should give no errors. 'make install' will install
+headers of the library in $HOME/include and the library libOperaBufr.a
+in $HOME/lib.
+
+News
+====
+
+This release is using OPERA BUFR 3.1, with a default BUFR edition
+of 2, to ensure binary compatibility of the encoded messages with the
+previous version.
+
+HDF5 1.8.x is now supported.
+
+Content (data samples)
+======================
+In directory 'tests', files:
+* composite-ref.bfr (reflectivity composite message)
+* cumul-ref.bfr (accumulation local message)
+* local-ref.bfr (reflectivity local message)
+* polar-ref.bfr (message in polar coordinates)
+* wrwp-OMM-ref.bfr (WRWP message using the OPERA template)
+* wrwp-opera-ref.bfr (WRWP message using the WMO template)
+* antilles-CMO-ref.bfr (Caribbean composite message)
+
+are BUFR messages for the formats given in "OPERA BUFR Guidelines" and
+"New OPERA BUFR proposals" documents, using the WMO tables up to 14
+and the OPERA tables up to 8.
+
+* compo-cumul-ref.bfr (accumulation composite message)
+  is a BUFR messages in the French internal BUFR format.
+
+You can use the 'decbufr' included in the distribution to dump the
+messages content (beware, some output files may be huge). For
+polar-ref.bfr, no pixmap file is created so far. For cumul-ref.bfr
+and compo-cumul-ref.bfr, a pixmap file is created, but it is forced to
+8 bits integers. To correct that behaviour, a patch to rlenc.c will be
+needed, in addition to the introduction of the new "special"
+descriptor 3 21 200 for rainfall.
+
+* odim-polar-ref.bfr is an ODIM polar data sample
+* odim-compo-ref.bfr is an ODIM reflectivity composite. See details
+  about that format at
+  http://www.knmi.nl/opera/opera3/OPERA_2008_03_WP2.1a_InformationModel_UML_2.0.pdf
+  and
+  http://www.knmi.nl/opera/odc/ODIM-bufr-polar-and-compo-and-graphic.pdf
+
+Content (samples programs) 
+==========================
+To illustrate how to generate programmatically BUFR messages, I have
+given some programs to do that in directory 'tests'.  The source files
+are called build-*.c and are compiled for the tests (which are run
+with the command 'make check').
+
+The PROJ library is used to compute the 4 corner coordinates of the
+images in some tests samples. If PROJ is not available, these tests
+will fail.
+
+For the curious, all the *-ref.bfr messages are actually conversions
+from French real data, also in BUFR; so there are several localtab*85*
+files in the directory 'tables' to decode that data.
+
+And of course you should study build-*.c to learn how to avoid using
+'decbufr' and 'encbufr' and so accelerate your radar
+coding/decoding. 
+
+Sample ODIM programs to convert from BUFR to HDF5 and vice versa are:
+'bufr2hdf5' 'hdf2bufr' (polar data) and 'comp2hdf5' 'hdf2comp'
+(composite). This is where the HDF5 library is needed.
+
+Graphics
+========
+Directory 'view' has tools to build graphical PNG files from ODIM BUFR
+files. The programs are 'bufr2view' (raw polar data viewing),
+'bufr2view-cart' (viewing polar data in cartesian) and 'comp2view'
+(composite viewing). They will compile and run only with the modified
+PROJ library which adds a 'polar' projection; they needs the PNG
+library of course.
+
+When used with the '-k' flag, tools 'bufr2view-cart' and 'comp2view'
+will create KML files, ready for use in Google Earth.

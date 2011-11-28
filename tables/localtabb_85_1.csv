@@ -1,0 +1,181 @@
+0;01;032;GENERATING APPLICATION;Code table;0;0;8
+0;01;192;Table des composites;Code table;0;0;8
+0;01;193;Table des identificateurs des donnees combinees;Code table;0;0;8
+0;01;194;CARRIER BALLOON/DROP TEMP;CCITT IA;0;0;72
+0;01;195;MOBIL LAND STATION IDENTIFIER;CCITT IA;0;0;72
+0;01;196;NUMERO DE DEPARTEMENT;NUMERIQUE;0;0;8
+0;01;197;NUMERO DE COMMUNE ET NUMERO DE  STATION DANS LA COMMUNE;NUMERIQUE;0;0;21
+0;01;198;TYPE DE SPEMET;Code table;0;0;2
+0;01;199;OBJET PRINCIPAL DU SPEMET;Code table;0;0;4
+0;01;200;Wmo region sub-area;Numeric;0;0;4
+0;01;208;X-velocity from earth's centre in direction 0 est;m/s;5;-1073741824;31
+0;01;209;Y-velocity from earth's centre in direction 90 est;m/s;5;-1073741824;31
+0;01;210;Z-velocity from earth's centre in direction north pole;m/s;5;-1073741824;31
+0;02;192;Type de radar;Code table;0;0;8
+0;02;193;Type de calculateur;Code table;0;0;8
+0;02;194;Indicateur du dernier etalonnage;Code table;0;0;8
+0;02;195;Frequence du dernier etalonnage;Hz;-6;0;16
+0;02;196;Reglage bas du dernier etalonnage;Numeric;0;0;16
+0;02;197;Reglage haut du dernier etalonnage;Numeric;0;0;16
+0;02;198;Indicateur d arret ou de panne;Code table;0;0;8
+0;02;199;Constante radar;dB;1;-1000;16
+0;02;200;Indicateur de fonctionnement de l eliminateur echos fixes;Code table;0;0;2
+0;02;201;Indicateur de positionnement en site inhibe;Code table;0;0;2
+0;02;202;Sens de balayage en azimut;Code table;0;0;2
+0;02;203;WAVE MEASUREMENT INSTRUMENTATION;Code table;0;0;2
+0;02;204;INDICATEUR DES UNITES DE VITESSE DU VENT ET DU TYPE D'INSTRUMENTS UTILISES;Code table;0;0;3
+0;04;192;PERIODE A LAQUELLE SE RAPPORTE  LA VALEUR SUIVANTE;MINUTE;0;0;8
+0;04;193;HEURE EFFECTIVE DU LANCEMENT DE LA RADIOSONDE;HOUR;0;0;5
+0;04;194;MINUTES EFFECTIVES DU LANCEMENT DE LA RADIOSONDE;MINUTES;0;0;6
+0;04;195;NOMBRE D'HEURES ECOULEES ENTRE  L'HEURE D'OBSERVATION GGgg ET   L'HEURE A LAQUELLE SE REFERE LA DERNIERE POSITION;HEURE;0;0;4
+0;05;192;Distance w-e du coin nw de l image au radar;m;0;-1024000;24
+0;05;193;Distance w-e sur le plan de projection du coin nw de l'image;m;0;-1024000;24
+0;05;194;Indicateur du centre de projection;Code Table;0;0;8
+0;05;195;Latitude de reference;degre;5;-9000000;25
+0;05;217;X-location from earth's centre in direction 0 Est;m;2;-1073741824;31
+0;05;232;Direction (spectral);Degree;0;0;12
+0;06;192;Distance n-s du coin nw de l image au radar;m;0;-1024000;24
+0;06;193;Distance d application de la correction en 1/r2;m;-3;0;16
+0;06;194;Portee de debut de traitement d un site;m;-3;0;16
+0;06;195;Portee de fin de traitement d un site;m;-3;0;16
+0;06;196;Distance oblique maximal d'utilisation des donnees;m;-3;0;16
+0;06;197;Distance ns sur le plan de projection du coin nw de l'image;m;0;-1024000;24
+0;06;198;Longitude du meridien parallele a l'axe des y;degre;5;-18000000;26
+0;06;217;Y-location from earth's centre in direction 90 est;m;2;-1073741824;31
+0;06;232;Wavenumber (spectral);Rads/m;5;0;13
+0;07;192;HAUTEUR AU DESSUS DU SOL;M;2;0;15
+0;07;217;Z-location from earth's centre in direction north pole;m;2;-1073741824;31
+0;11;195;FORCE MAXI DU VENT PENDANT W1W2;BEAUFORT;0;0;4
+0;11;196;DIRECTION D'OU SOUFFLE LE VENT  EN ALTITUDE;DEGRE VRAI;0;0;9
+0;11;197;VITESSE DU VENT EN ALTITUDE;M/S;1;0;12
+0;12;192;Temperature/dry-bulb temperature;K;2;0;16
+0;12;193;Wet-bulb temperature;K;2;0;16
+0;12;194;Dew-point temperature;K;2;0;16
+0;12;195;Dry-bulb temperature at 2m;K;2;0;16
+0;12;196;Wet-bulb temperature at 2m;K;2;0;16
+0;12;197;Dew-point temperature at 2m;K;2;0;16
+0;12;198;Virtual temperature;K;2;0;16
+0;12;202;Maximum temperature,at height and over period specified;K;2;0;16
+0;12;203;Minimum temperature,at height and over period specified;K;2;0;15
+0;12;204;Ground minimum temperature, past 12 hours;K;2;0;15
+0;12;205;Maximum temperature at 2m, past 12 hours;K;2;0;16
+0;12;206;Minimum temperature at 2m, past 12 hours;K;2;0;15
+0;12;207;Maximum temperature at 2m, past 24 hours;K;2;0;16
+0;12;208;Minimum temperature at 2m, past 24 hours;K;2;0;15
+0;12;221;Soil temperature;K;2;0;16
+0;12;222;TEMPERATURE DE LA SURFACE DE LA  NEIGE;K;2;0;15
+0;12;252;Skin temperature;K;2;0;16
+0;12;253;Equivalent black body temperature;K;2;0;16
+0;13;194;QUANTITE TOTALE DE PRECIPITATIONAU COURS D'UNE CERTAINE PERIODE;Ke/M**2;1;-1;14
+0;13;195;HAUTEUR TOTALE DE LA COUCHE DE  NEIGE AU SOL AU POINT DE MESURE D'ALTITUDE;M;2;-2;16
+0;13;196;EPAISSEUR DE LA NEIGE FRAICHE   TOMBEE EN ALTITUDE;M;2;-2;12
+0;13;197;TENEUR EN EAU LIQUIDE VOLUMIQUE DE LA NEIGE;%;1;0;7
+0;13;198;MASSE VOLUMIQUE DE LA NEIGE;KG/M**3;0;0;9
+0;14;192;INSOLATION HORAIRE;MINUTES;0;0;6
+0;15;202;Log of electron density;LOG M**-2;3;13000;12
+0;20;193;VISIBILITE VERS LA MER A PARTIR D'UNE STATION COTIERE;M;-1;0;13
+0;20;194;ETAT DE LA NEIGE;Code table;0;0;4
+0;20;195;PROFONDEUR DE PENETRATION DE LA SONDE DE BATTAGE;M;2;0;7
+0;20;196;NUAGES DANS LA VALLEE;Code table;0;0;4
+0;20;197;CHASSE-NEIGE EN ALTITUDE;Code table;0;0;4
+0;20;198;DESCRIPTION AVALANCHES OBSERVEES;Code table;0;0;4
+0;20;199;GENRE D'AVALANCHES;Code table;0;0;4
+0;20;200;ALTITUDE DEPART DE L'AVALANCHE;Code table;0;0;4
+0;20;201;EXPOSITION DE L'AVALANCHE;Code table;0;0;4
+0;20;202;ESTIMATION DU RISQUE D'AVALANCHE;Code table;0;0;4
+0;20;203;TYPE DES GRAINS DE SURFACE PREDOMINANT DANS LA COUCHE;Code table;0;0;4
+0;20;204;TYPE DES GRAINS DE SURFACE LES  PLUS NOMBREUX APRES LES GRAINS  PREDOMINANTS;Code table;0;0;4
+0;20;205;DIAMETRE MOYEN DES GRAINS;M;4;0;7
+0;20;206;INDICATEUR D'HOMOGENEITE DE LA  COUCHE;Code table;0;0;2
+0;21;192;Reflectivite minimale pour la valeur du pixel;dB;1;0;16
+0;21;193;Reflectivite maximale pour la valeur du pixel;dB;1;0;16
+0;21;194;Reflectivite theorique;dB;1;0;16
+0;21;195;Reflectivite mesuree;dB;1;0;16
+0;21;196;Uwa product confidence;Flag table;0;0;12
+0;21;197;Uwi product confidence;Flag table;0;0;12
+0;21;198;Ura product confidence;Flag table;0;0;8
+0;21;199;Uat quality analysis tests;Flag table;0;0;7
+0;21;201;Peakiness;Numeric;0;0;16
+0;21;202;Altimeter calibration status;Flag table;0;0;4
+0;21;203;Altimeter instrument mode;Flag table;0;0;9
+0;21;204;Multi/single view difference;K;2;-512;10
+0;21;205;Spectral intensity;Numeric;0;0;8
+0;21;206;Representation of intensity;Code table;0;0;3
+0;21;207;Altitude correction (ionosphere);m;3;0;14
+0;21;208;Altitude correction (dry troposphere);m;3;0;9
+0;21;209;Altitude correction (wet troposphere);m;3;2000;10
+0;21;210;Altitude correction (calibration constant);m;3;0;11
+0;21;211;Open loop correction (htl);m;3;0;10
+0;21;212;Open loop correction (agc);dB;3;-3000;14
+0;21;214;Uat quality summary;Code table;0;0;3
+0;21;215;Uat across-track band number;Numeric;0;0;4
+0;22;200;SIGNIFICANT WAVE HEIGHT (NOTE 1);M;2;0;13
+0;22;201;SPECTRAL PEAK PERIOD;S;1;0;9
+0;22;202;SPECTRAL PEAK WAVE LENGTH;M;0;0;13
+0;22;203;MAXIMUM WAVE HEIGHT;M;2;0;13
+0;22;204;AVERAGE WAVE PERIOD;S;1;0;9
+0;22;205;AVERAGE WAVE LENGTH;M;0;0;12
+0;22;206;DIRECTION OF DOMINANT WAVE (NOTE 2);DEGREE TRUE;0;0;9
+0;22;207;DIRECTIONNAL SPREAD OF DOMINANT WAVE (NOTE 2);DEGREE TRUE;0;0;8
+0;22;210;DURATION OF WAVE RECORD;S;0;0;12
+0;22;211;LENGTH OF WAVE RECORD;M;0;0;16
+0;22;212;WAVEBAND CENTRAL FREQUENCY;HZ;3;0;10
+0;22;213;WAVEBAND CENTRAL WAVE NUMBER;1/M;5;0;13
+0;22;214;MAXIMUM NON-DIRECTIONAL SPECTRAL DENSITY FREQUENCY;M**2/HZ;2;0;20
+0;22;215;MAXIMUM NON-DIRECTIONAL SPECTRAL DENSITY WAVE NUMBER;M**3;2;0;20
+0;22;216;NUMBER OF THE BAND IN WHICH THE MAXIMUM NON-DIRECTIONAL SPECTRAL DENSITY LIES;Numeric;0;0;7
+0;22;217;SPECTRAL DENSITY RATIO;Numeric;0;0;7
+0;22;218;MEAN DIRECTION FROM WHICH WAVES ARE COMING;DEGREE TRUE;0;0;9
+0;22;219;PRINCIPAL DIRECTION FROM WHICH WAVES ARE COMING (NOTE 3);DEGREE TRUE;0;0;9
+0;22;220;FIRST NORMALISED POLAR CO-ORDINATE DERIVED FROM FOURIER COEFFICIENTS;NUMBER;2;0;7
+0;22;221;SECOND NORMALISED POLAR CO-ORDINATE DERIVED FROM FOURIER COEFFICIENTS;NUMBER;2;0;7
+0;22;222;NON-DIRECTIONAL SPECTRAL ESTIMATE OF FREQUENCY;M**2/HZ;2;0;20
+0;22;223;NON-DIRECTIONAL SPECTRAL ESTIMATE OF WAVE NUMBER;M**3;2;2;20
+0;22;224;DIRECTIONAL SPECTRAL ESTIMATE OF FREQUENCY;M**2/HZ/RAD;2;0;20
+0;22;225;DIRECTIONAL SPECTRAL ESTIMATE OF WAVE NUMBER;M**4;2;0;20
+0;22;226;TOTAL NUMBER OF BANDS;Numeric;0;0;7
+0;22;227;DIRECTIONAL SPREAD OF INDIVIDUAL WAVES;DEGREE TRUE;0;0;8
+0;22;228;INDICATEUR DE FOND;Code table;0;0;2
+0;22;243;Standard deviation significant wave height;m;2;0;10
+0;25;208;SAMPLING INTERVAL (TIME);S;4;0;15
+0;25;009;Calibration method;Flag table;0;0;5
+0;25;192;Methode de composition dans les zones de recouvrement;Code table;0;0;8
+0;25;193;Numero de version logicielle du calculateur;Numeric;2;0;16
+0;25;194;Numero de version de composite;Numeric;2;0;16
+0;25;195;Numero de version de carte utilisee pour composition;Numeric;0;0;8
+0;25;197;Nombre d'images prises en compte;Numeric;0;0;24
+0;25;208;SAMPLING INTERVAL (TIME);S;4;0;15
+0;25;209;SAMPLING INTERVAL (SPACE);M;2;0;12
+0;29;002;Co-ordinate grid type;Code table;0;0;2
+0;30;192;Mode de balayage;Code table;0;0;8
+0;31;031;DATA PRESENT INDICATOR;Numeric;0;0;1
+0;31;192;Facteur super elargi de repetition differe du descripteur;Numeric;0;0;32
+0;33;192;FLAG DE QUALITE SUR PARAMETRE;Code table;0;0;3
+0;33;212;QUALITE DE LA MESURE DE PRESSION;Code table;0;0;2
+0;33;213;QUALITE DU PARAMETRE TECHNOLOGI QUE(DEUXIEME VARIABLE DU PREMIERBLOC DE DONNEES CAPTEURS DES PLATES-FORMES ARGOS);Code table;0;0;2
+0;33;214;QUALITE DE LA MESURE DE LA TEMPERATURE DE L'EAU EN SURFACE;Code table;0;0;2
+0;33;215;VALEUR DE LA MESURE DE LA TEMPERRATURE DE L'AIR;Code table;0;0;2
+0;33;216;QUALITE DES TRANSMISSIONS ENTRE LA BOUEE ET LE SATELLITE;Code table;0;0;2
+0;33;217;QUALITE DE LA POSITION;Code table;0;0;2
+0;33;218;INDICATEUR CONTROLE DE QUALITE  DES DONNEES RELATIVES A LA POSI TION;Code table;0;0;3
+0;33;219;INDICATEUR CONTROLE DE QUALITE  DES DONNEES RELATIVES A L'HEURE;Code table;0;0;3
+0;33;220;INDICATEUR CONTROLE DE QUALITE  DES DONNEES METEOROLOGIQUES;Code table;0;0;3
+0;33;221;INDICATEUR DE POSITION DU GROUPE;Code table;0;0;4
+0;33;222;INDICATEUR CONTROLE DE QUALITE  DES DONNEES MARINES;Code table;0;0;3
+0;33;223;INDICATEUR DE CONTROLE DE QUALI TE DES DONNEES RELATIVES AUX PROFILS DE TEMPERATURE ET DE SALINITE;Code table;0;0;3
+0;33;224;INDICATEUR CONTROLE DE QUALITE  DES DONNEES RELATIVES AUX PRO   FILS DES COURANTS;Code table;0;0;3
+0;48;192;Bit de calage;Numeric;0;0;1
+0;49;192;Cq integrite du message;Code table;0;0;4
+0;49;193;Cq arret panne;Code table;0;0;4
+0;49;194;Cq etalonnage;Code table;0;0;4
+0;49;195;Cq eliminateur echos fixes;Code table;0;0;4
+0;49;196;Cq controle temporel;Code table;0;0;4
+0;49;197;Cq controle spatial;Code table;0;0;4
+0;49;198;Cq controle de coherence echos fixes;Code table;0;0;4
+0;49;199;Cq comparaison avec les donnees satellitaires;Code table;0;0;4
+0;49;211;Cptq images emises par le calculateur radar;Numeric;0;0;16
+0;49;212;Cptq images recues par le concentrateur;Numeric;0;0;16
+0;49;213;Cptq images emises par le concentrateur radar;Numeric;0;0;16
+0;49;214;Cptq images recues par le systeme de diffusion;Numeric;0;0;16
+0;49;215;Cptq images emises par le systeme de diffusion;Numeric;0;0;16
+0;49;216;Cptq images recues par la machine d'archivage;Numeric;0;0;16

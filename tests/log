@@ -1,0 +1,485 @@
+Input file header:
+    0    master table used                  
+    0    subcenter                          
+   85    generating center                  
+    0    original BUFR message              
+    0    no optional section                
+    6    message type                       
+   22    message subtype                    
+   11    version number of master table used
+   10    version number of local table used 
+    6    year                               
+    5    month                              
+   18    day                                
+    6    hour                               
+    5    minute                             
+PVR 2359296 100000
+Quality 2359296 100000
+Pixmap 2359296 65535
+la
+F X Y output: 0 30 31
+F X Y output: 0 1 192
+F X Y output: 3 1 11
+F X Y output: 3 1 13
+F X Y output: 0 8 21
+F X Y output: 0 4 25
+F X Y output: 0 4 26
+F X Y output: 0 29 2
+F X Y output: 0 29 1
+F X Y output: 0 30 21
+F X Y output: 0 30 22
+F X Y output: 0 5 33
+F X Y output: 0 6 33
+F X Y output: 3 29 192
+F X Y output: 0 25 192
+F X Y output: 0 25 9
+F X Y output: 0 25 10
+F X Y output: 0 25 11
+F X Y output: 1 6 0
+F X Y output: 0 31 1
+F X Y output: 0 1 1
+F X Y output: 0 1 2
+F X Y output: 3 1 11
+F X Y output: 3 1 13
+F X Y output: 0 5 1
+F X Y output: 0 6 1
+Tableau radars 20
+F X Y output: 0 49 209
+F X Y output: 0 48 192
+F X Y output: 0 48 192
+F X Y output: 0 48 192
+F X Y output: 0 48 192
+F X Y output: 0 48 192
+F X Y output: 1 1 0
+F X Y output: 0 31 192
+F X Y output: 0 49 210
+Tableau PVR 2359296
+Reallocated memory for v to size 201000
+Reallocated memory for v to size 401000
+Reallocated memory for v to size 601000
+Reallocated memory for v to size 801000
+Reallocated memory for v to size 1001000
+Reallocated memory for v to size 1201000
+Reallocated memory for v to size 1401000
+Reallocated memory for v to size 1601000
+Reallocated memory for v to size 1801000
+Reallocated memory for v to size 2001000
+Reallocated memory for v to size 2201000
+Reallocated memory for v to size 2401000
+F X Y output: 3 21 201
+Tableau qualité 2359296
+Reallocated memory for v to size 2601000
+Reallocated memory for v to size 2801000
+Reallocated memory for v to size 3001000
+Reallocated memory for v to size 3201000
+Reallocated memory for v to size 3401000
+Reallocated memory for v to size 3601000
+Reallocated memory for v to size 3801000
+Reallocated memory for v to size 4001000
+Reallocated memory for v to size 4201000
+Reallocated memory for v to size 4401000
+Reallocated memory for v to size 4601000
+Reallocated memory for v to size 4801000
+F X Y output: 0 48 192
+F X Y output: 0 48 192
+F X Y output: 0 48 192
+F X Y output: 0 48 192
+F X Y output: 0 48 192
+F X Y output: 0 48 192
+F X Y output: 0 48 192
+F X Y output: 0 48 192
+F X Y output: 3 21 200
+Tableau pixmap 2359296
+Reallocated memory for v to size 5001000
+Reallocated memory for v to size 5201000
+Reallocated memory for v to size 5401000
+Reallocated memory for v to size 5601000
+Reallocated memory for v to size 5801000
+Reallocated memory for v to size 6001000
+Reallocated memory for v to size 6201000
+Reallocated memory for v to size 6401000
+Reallocated memory for v to size 6601000
+Reallocated memory for v to size 6801000
+Reallocated memory for v to size 7001000
+Reallocated memory for v to size 7201000
+Output file header:
+    0    master table used                  
+    0    subcenter                          
+   85    generating center                  
+    0    original BUFR message              
+    0    no optional section                
+    6    message type                       
+   22    message subtype                    
+   11    version number of master table used
+   10    version number of local table used 
+    6    year                               
+    5    month                              
+   18    day                                
+    6    hour                               
+    5    minute                             
+Input file header:
+    0    master table used                  
+    0    subcenter                          
+   85    generating center                  
+    0    original BUFR message              
+    0    no optional section                
+    6    message type                       
+   20    message subtype                    
+    2    version number of master table used
+    1    version number of local table used 
+  100    year                               
+   10    month                              
+   30    day                                
+   13    hour                               
+    0    minute                             
+Reallocated memory for global_val to size 700000
+Reallocated memory for global_val to size 900000
+Reallocated memory for global_val to size 1100000
++proj=stere +lat_0=90 +lon_0=0 +lat_ts=45 +a=6.371e+06 +es=0
+F X Y output: 3 1 1
+F X Y output: 3 1 194
+F X Y output: 0 30 196
+F X Y output: 3 1 193
+F X Y output: 0 30 31
+F X Y output: 0 29 2
+F X Y output: 3 21 250
+F X Y output: 2 1 129
+F X Y output: 3 13 9
+F X Y output: 2 1 0
+F X Y output: 3 21 193
+Reallocated memory for v to size 201000
+Output file header:
+    0    master table used                  
+  255    subcenter                          
+  255    generating center                  
+    0    original BUFR message              
+    0    no optional section                
+    6    message type                       
+   20    message subtype                    
+   13    version number of master table used
+    6    version number of local table used 
+  100    year                               
+   10    month                              
+   30    day                                
+   13    hour                               
+    0    minute                             
+Input file header:
+    0    master table used                  
+    0    subcenter                          
+   85    generating center                  
+    0    original BUFR message              
+    0    no optional section                
+    6    message type                       
+    0    message subtype                    
+    2    version number of master table used
+    1    version number of local table used 
+    5    year                               
+   12    month                              
+   27    day                                
+   18    hour                               
+    0    minute                             
+Unknown element descriptor 0 2 192
+Unknown element descriptor 0 2 193
+Unknown element descriptor 0 25 193
+Unknown element descriptor 0 2 202
+Unknown sequence descriptor 3 21 5
+Unknown sequence descriptor 3 21 6
+Unknown sequence descriptor 3 21 7
+Unknown element descriptor 0 6 193
+Unknown element descriptor 0 2 198
+Unknown sequence descriptor 3 21 192
+Unknown element descriptor 0 2 199
+Unknown element descriptor 0 2 200
+Unknown element descriptor 0 2 201
+Unknown sequence descriptor 3 21 196
+Unknown sequence descriptor 3 29 192
+Unknown element descriptor 0 5 192
+Unknown element descriptor 0 6 192
+Unknown element descriptor 0 4 25
+Unknown element descriptor 0 4 26
+Unknown sequence descriptor 3 21 8
+Unknown element descriptor 0 49 192
+Unknown element descriptor 0 49 193
+Unknown element descriptor 0 49 194
+Unknown element descriptor 0 49 195
+Unknown element descriptor 0 49 196
+Unknown element descriptor 0 49 197
+Unknown element descriptor 0 49 198
+Unknown element descriptor 0 49 199
+Unknown element descriptor 0 49 211
+Unknown element descriptor 0 49 212
+Unknown element descriptor 0 49 213
+Unknown element descriptor 0 49 214
+Unknown element descriptor 0 49 215
+Unknown element descriptor 0 49 216
+ fxy: 1 4 0
+Unknown element descriptor 0 31 1
+Unknown element descriptor 0 2 134
+Unknown element descriptor 0 2 134
+Unknown element descriptor 0 4 5
+Unknown element descriptor 0 4 6
+ fxy: 1 1 0
+Unknown element descriptor 0 31 1
+Unknown element descriptor 0 48 192
+Unknown element descriptor 0 48 192
+Unknown element descriptor 0 48 192
+Unknown element descriptor 0 48 192
+Unknown element descriptor 0 48 192
+Unknown element descriptor 0 48 192
+Unknown element descriptor 0 48 192
+Unknown element descriptor 0 48 192
+ fxy: 1 3 0
+Output file header:
+    0    master table used                  
+  255    subcenter                          
+  255    generating center                  
+    0    original BUFR message              
+    0    no optional section                
+    6    message type                       
+    0    message subtype                    
+   13    version number of master table used
+    6    version number of local table used 
+    5    year                               
+   12    month                              
+   27    day                                
+   18    hour                               
+    0    minute                             
+Input file header:
+    0    master table used                  
+    0    subcenter                          
+   85    generating center                  
+    0    original BUFR message              
+    0    no optional section                
+    6    message type                       
+    2    message subtype                    
+    2    version number of master table used
+    2    version number of local table used 
+    5    year                               
+   12    month                              
+   27    day                                
+   18    hour                               
+    0    minute                             
+F X Y output: 3 1 1
+F X Y output: 3 1 194
+F X Y output: 3 1 193
+F X Y output: 0 29 2
+F X Y output: 0 30 196
+F X Y output: 0 33 3
+F X Y output: 0 8 21
+F X Y output: 0 4 25
+F X Y output: 0 25 9
+WARNING: not correct calibration method 8
+F X Y output: 0 25 192
+F X Y output: 0 25 193
+F X Y output: 3 21 200
+Reallocated memory for v to size 201000
+Output file header:
+    0    master table used                  
+  255    subcenter                          
+  255    generating center                  
+    0    original BUFR message              
+    0    no optional section                
+    6    message type                       
+    2    message subtype                    
+   13    version number of master table used
+    6    version number of local table used 
+    5    year                               
+   12    month                              
+   27    day                                
+   18    hour                               
+    0    minute                             
+Input file header:
+    0    master table used                  
+    0    subcenter                          
+   85    generating center                  
+    0    original BUFR message              
+    0    no optional section                
+    2    message type                       
+    1    message subtype                    
+    6    version number of master table used
+    0    version number of local table used 
+    4    year                               
+   10    month                              
+   29    day                                
+   14    hour                               
+   20    minute                             
+F X Y output: 3 1 1
+F X Y output: 3 1 11
+F X Y output: 3 1 12
+F X Y output: 3 1 22
+F X Y output: 0 2 3
+F X Y output: 1 6 0
+F X Y output: 0 31 1
+F X Y output: 0 7 7
+F X Y output: 0 11 1
+F X Y output: 0 11 2
+F X Y output: 0 33 2
+F X Y output: 0 11 6
+F X Y output: 0 33 2
+Output file header:
+    0    master table used                  
+    0    subcenter                          
+   85    generating center                  
+    0    original BUFR message              
+    0    no optional section                
+    2    message type                       
+    1    message subtype                    
+   13    version number of master table used
+    0    version number of local table used 
+    4    year                               
+   10    month                              
+   29    day                                
+   14    hour                               
+   20    minute                             
+Input file header:
+    0    master table used                  
+    0    subcenter                          
+   85    generating center                  
+    0    original BUFR message              
+    0    no optional section                
+    2    message type                       
+    1    message subtype                    
+    6    version number of master table used
+    0    version number of local table used 
+    4    year                               
+   10    month                              
+   29    day                                
+   14    hour                               
+   20    minute                             
+F X Y output: 3 1 32
+F X Y output: 0 2 3
+F X Y output: 0 2 101
+F X Y output: 0 2 106
+F X Y output: 2 1 132
+F X Y output: 2 2 130
+F X Y output: 0 2 121
+F X Y output: 2 2 0
+F X Y output: 2 1 0
+F X Y output: 2 1 133
+F X Y output: 2 2 129
+F X Y output: 0 25 1
+F X Y output: 2 2 0
+F X Y output: 2 1 0
+F X Y output: 0 25 20
+F X Y output: 0 25 21
+F X Y output: 0 8 21
+F X Y output: 0 4 25
+F X Y output: 1 11 0
+F X Y output: 0 31 1
+F X Y output: 0 10 7
+F X Y output: 2 4 1
+F X Y output: 0 31 21
+F X Y output: 0 11 1
+F X Y output: 2 4 0
+F X Y output: 0 11 2
+F X Y output: 2 4 1
+F X Y output: 0 31 21
+F X Y output: 0 11 6
+F X Y output: 2 4 0
+F X Y output: 0 21 30
+Output file header:
+    0    master table used                  
+    0    subcenter                          
+   85    generating center                  
+    0    original BUFR message              
+    0    no optional section                
+    2    message type                       
+    1    message subtype                    
+    6    version number of master table used
+    0    version number of local table used 
+    4    year                               
+   10    month                              
+   29    day                                
+   14    hour                               
+   20    minute                             
+Input file header:
+    0    master table used                  
+    0    subcenter                          
+   85    generating center                  
+    0    original BUFR message              
+    0    no optional section                
+    6    message type                       
+    0    message subtype                    
+    2    version number of master table used
+    1    version number of local table used 
+    4    year                               
+    6    month                              
+   19    day                                
+   22    hour                               
+    7    minute                             
+ncols= 429 nrows= 429
+taille vraie: 184320 taille calculee: 184041
+taille: 184320
+F X Y output: 3 1 31
+F X Y output: 0 30 31
+F X Y output: 0 29 2
+F X Y output: 0 30 196
+F X Y output: 0 33 3
+F X Y output: 2 1 129
+F X Y output: 3 13 9
+F X Y output: 2 1 0
+F X Y output: 3 21 199
+ngates= 6 npulses= 37
+Reallocated memory for v to size 201000
+Output file header:
+    0    master table used                  
+  255    subcenter                          
+  255    generating center                  
+    0    original BUFR message              
+    0    no optional section                
+    6    message type                       
+    0    message subtype                    
+   13    version number of master table used
+    6    version number of local table used 
+    4    year                               
+    6    month                              
+   19    day                                
+   22    hour                               
+    7    minute                             
+Input file header:
+    0    master table used                  
+    0    subcenter                          
+  255    generating center                  
+    0    original BUFR message              
+    0    no optional section                
+    6    message type                       
+    0    message subtype                    
+    2    version number of master table used
+    1    version number of local table used 
+    6    year                               
+    6    month                              
+   22    day                                
+   11    hour                               
+   30    minute                             
+Fini 262144
+F X Y output: 3 1 1
+F X Y output: 3 1 194
+NW: -7.07195e+06 2.18791e+06
+NE: -6.04795e+06 2.18791e+06
+SE: -6.04795e+06 1.16391e+06
+SW: -7.07195e+06 1.16391e+06
+F X Y output: 0 30 196
+F X Y output: 3 1 193
+F X Y output: 0 30 31
+F X Y output: 0 29 2
+F X Y output: 3 21 250
+F X Y output: 2 1 129
+F X Y output: 3 13 9
+F X Y output: 2 1 0
+F X Y output: 3 21 193
+Reallocated memory for v to size 201000
+Output file header:
+    0    master table used                  
+  255    subcenter                          
+  255    generating center                  
+    0    original BUFR message              
+    0    no optional section                
+    6    message type                       
+    0    message subtype                    
+   13    version number of master table used
+    6    version number of local table used 
+    6    year                               
+    6    month                              
+   22    day                                
+   11    hour                               
+   30    minute                             

@@ -1,0 +1,821 @@
+HDF5 "example_odim_200906101315.h5" {
+GROUP "/" {
+   ATTRIBUTE "Conventions" {
+      DATATYPE  H5T_STRING {
+            STRSIZE 13;
+            STRPAD H5T_STR_NULLTERM;
+            CSET H5T_CSET_ASCII;
+            CTYPE H5T_C_S1;
+         }
+      DATASPACE  SCALAR
+      DATA {
+      (0): "ODIM_H5/V2_0"
+      }
+   }
+   GROUP "dataset1" {
+      GROUP "data1" {
+         DATASET "data" {
+            DATATYPE  H5T_IEEE_F64BE
+            DATASPACE  SIMPLE { ( 360, 224 ) / ( 360, 224 ) }
+            ATTRIBUTE "CLASS" {
+               DATATYPE  H5T_STRING {
+                     STRSIZE 6;
+                     STRPAD H5T_STR_NULLTERM;
+                     CSET H5T_CSET_ASCII;
+                     CTYPE H5T_C_S1;
+                  }
+               DATASPACE  SCALAR
+               DATA {
+               (0): "IMAGE"
+               }
+            }
+            ATTRIBUTE "IMAGE_VERSION" {
+               DATATYPE  H5T_STRING {
+                     STRSIZE 4;
+                     STRPAD H5T_STR_NULLTERM;
+                     CSET H5T_CSET_ASCII;
+                     CTYPE H5T_C_S1;
+                  }
+               DATASPACE  SCALAR
+               DATA {
+               (0): "1.2"
+               }
+            }
+         }
+         GROUP "what" {
+            ATTRIBUTE "gain" {
+               DATATYPE  H5T_IEEE_F64BE
+               DATASPACE  SCALAR
+               DATA {
+               (0): 1
+               }
+            }
+            ATTRIBUTE "nodata" {
+               DATATYPE  H5T_IEEE_F64BE
+               DATASPACE  SCALAR
+               DATA {
+               (0): 1.79769e+308
+               }
+            }
+            ATTRIBUTE "offset" {
+               DATATYPE  H5T_IEEE_F64BE
+               DATASPACE  SCALAR
+               DATA {
+               (0): 0
+               }
+            }
+            ATTRIBUTE "quantity" {
+               DATATYPE  H5T_STRING {
+                     STRSIZE 5;
+                     STRPAD H5T_STR_NULLTERM;
+                     CSET H5T_CSET_ASCII;
+                     CTYPE H5T_C_S1;
+                  }
+               DATASPACE  SCALAR
+               DATA {
+               (0): "DBZH"
+               }
+            }
+            ATTRIBUTE "undetect" {
+               DATATYPE  H5T_IEEE_F64BE
+               DATASPACE  SCALAR
+               DATA {
+               (0): -1.79769e+308
+               }
+            }
+         }
+      }
+      GROUP "what" {
+         ATTRIBUTE "enddate" {
+            DATATYPE  H5T_STRING {
+                  STRSIZE 9;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+            DATASPACE  SCALAR
+            DATA {
+            (0): "20090610"
+            }
+         }
+         ATTRIBUTE "endtime" {
+            DATATYPE  H5T_STRING {
+                  STRSIZE 7;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+            DATASPACE  SCALAR
+            DATA {
+            (0): "131500"
+            }
+         }
+         ATTRIBUTE "product" {
+            DATATYPE  H5T_STRING {
+                  STRSIZE 5;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+            DATASPACE  SCALAR
+            DATA {
+            (0): "SCAN"
+            }
+         }
+         ATTRIBUTE "startdate" {
+            DATATYPE  H5T_STRING {
+                  STRSIZE 9;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+            DATASPACE  SCALAR
+            DATA {
+            (0): "20090610"
+            }
+         }
+         ATTRIBUTE "starttime" {
+            DATATYPE  H5T_STRING {
+                  STRSIZE 7;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+            DATASPACE  SCALAR
+            DATA {
+            (0): "131500"
+            }
+         }
+      }
+      GROUP "where" {
+         ATTRIBUTE "a1gate" {
+            DATATYPE  H5T_STD_I32BE
+            DATASPACE  SCALAR
+            DATA {
+            (0): 0
+            }
+         }
+         ATTRIBUTE "elangle" {
+            DATATYPE  H5T_IEEE_F64BE
+            DATASPACE  SCALAR
+            DATA {
+            (0): 0.15
+            }
+         }
+         ATTRIBUTE "nbins" {
+            DATATYPE  H5T_STD_I32BE
+            DATASPACE  SCALAR
+            DATA {
+            (0): 224
+            }
+         }
+         ATTRIBUTE "nrays" {
+            DATATYPE  H5T_STD_I32BE
+            DATASPACE  SCALAR
+            DATA {
+            (0): 360
+            }
+         }
+         ATTRIBUTE "rscale" {
+            DATATYPE  H5T_IEEE_F64BE
+            DATASPACE  SCALAR
+            DATA {
+            (0): 1000
+            }
+         }
+         ATTRIBUTE "rstart" {
+            DATATYPE  H5T_IEEE_F64BE
+            DATASPACE  SCALAR
+            DATA {
+            (0): 0
+            }
+         }
+      }
+   }
+   GROUP "dataset2" {
+      GROUP "data1" {
+         DATASET "data" {
+            DATATYPE  H5T_IEEE_F64BE
+            DATASPACE  SIMPLE { ( 360, 224 ) / ( 360, 224 ) }
+            ATTRIBUTE "CLASS" {
+               DATATYPE  H5T_STRING {
+                     STRSIZE 6;
+                     STRPAD H5T_STR_NULLTERM;
+                     CSET H5T_CSET_ASCII;
+                     CTYPE H5T_C_S1;
+                  }
+               DATASPACE  SCALAR
+               DATA {
+               (0): "IMAGE"
+               }
+            }
+            ATTRIBUTE "IMAGE_VERSION" {
+               DATATYPE  H5T_STRING {
+                     STRSIZE 4;
+                     STRPAD H5T_STR_NULLTERM;
+                     CSET H5T_CSET_ASCII;
+                     CTYPE H5T_C_S1;
+                  }
+               DATASPACE  SCALAR
+               DATA {
+               (0): "1.2"
+               }
+            }
+         }
+         GROUP "what" {
+            ATTRIBUTE "gain" {
+               DATATYPE  H5T_IEEE_F64BE
+               DATASPACE  SCALAR
+               DATA {
+               (0): 1
+               }
+            }
+            ATTRIBUTE "nodata" {
+               DATATYPE  H5T_IEEE_F64BE
+               DATASPACE  SCALAR
+               DATA {
+               (0): 1.79769e+308
+               }
+            }
+            ATTRIBUTE "offset" {
+               DATATYPE  H5T_IEEE_F64BE
+               DATASPACE  SCALAR
+               DATA {
+               (0): 0
+               }
+            }
+            ATTRIBUTE "quantity" {
+               DATATYPE  H5T_STRING {
+                     STRSIZE 5;
+                     STRPAD H5T_STR_NULLTERM;
+                     CSET H5T_CSET_ASCII;
+                     CTYPE H5T_C_S1;
+                  }
+               DATASPACE  SCALAR
+               DATA {
+               (0): "DBZH"
+               }
+            }
+            ATTRIBUTE "undetect" {
+               DATATYPE  H5T_IEEE_F64BE
+               DATASPACE  SCALAR
+               DATA {
+               (0): -1.79769e+308
+               }
+            }
+         }
+      }
+      GROUP "what" {
+         ATTRIBUTE "enddate" {
+            DATATYPE  H5T_STRING {
+                  STRSIZE 9;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+            DATASPACE  SCALAR
+            DATA {
+            (0): "20090610"
+            }
+         }
+         ATTRIBUTE "endtime" {
+            DATATYPE  H5T_STRING {
+                  STRSIZE 7;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+            DATASPACE  SCALAR
+            DATA {
+            (0): "131500"
+            }
+         }
+         ATTRIBUTE "product" {
+            DATATYPE  H5T_STRING {
+                  STRSIZE 5;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+            DATASPACE  SCALAR
+            DATA {
+            (0): "SCAN"
+            }
+         }
+         ATTRIBUTE "startdate" {
+            DATATYPE  H5T_STRING {
+                  STRSIZE 9;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+            DATASPACE  SCALAR
+            DATA {
+            (0): "20090610"
+            }
+         }
+         ATTRIBUTE "starttime" {
+            DATATYPE  H5T_STRING {
+                  STRSIZE 7;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+            DATASPACE  SCALAR
+            DATA {
+            (0): "131500"
+            }
+         }
+      }
+      GROUP "where" {
+         ATTRIBUTE "a1gate" {
+            DATATYPE  H5T_STD_I32BE
+            DATASPACE  SCALAR
+            DATA {
+            (0): 0
+            }
+         }
+         ATTRIBUTE "elangle" {
+            DATATYPE  H5T_IEEE_F64BE
+            DATASPACE  SCALAR
+            DATA {
+            (0): 0.73
+            }
+         }
+         ATTRIBUTE "nbins" {
+            DATATYPE  H5T_STD_I32BE
+            DATASPACE  SCALAR
+            DATA {
+            (0): 224
+            }
+         }
+         ATTRIBUTE "nrays" {
+            DATATYPE  H5T_STD_I32BE
+            DATASPACE  SCALAR
+            DATA {
+            (0): 360
+            }
+         }
+         ATTRIBUTE "rscale" {
+            DATATYPE  H5T_IEEE_F64BE
+            DATASPACE  SCALAR
+            DATA {
+            (0): 1000
+            }
+         }
+         ATTRIBUTE "rstart" {
+            DATATYPE  H5T_IEEE_F64BE
+            DATASPACE  SCALAR
+            DATA {
+            (0): 0
+            }
+         }
+      }
+   }
+   GROUP "dataset3" {
+      GROUP "data1" {
+         DATASET "data" {
+            DATATYPE  H5T_IEEE_F64BE
+            DATASPACE  SIMPLE { ( 360, 224 ) / ( 360, 224 ) }
+            ATTRIBUTE "CLASS" {
+               DATATYPE  H5T_STRING {
+                     STRSIZE 6;
+                     STRPAD H5T_STR_NULLTERM;
+                     CSET H5T_CSET_ASCII;
+                     CTYPE H5T_C_S1;
+                  }
+               DATASPACE  SCALAR
+               DATA {
+               (0): "IMAGE"
+               }
+            }
+            ATTRIBUTE "IMAGE_VERSION" {
+               DATATYPE  H5T_STRING {
+                     STRSIZE 4;
+                     STRPAD H5T_STR_NULLTERM;
+                     CSET H5T_CSET_ASCII;
+                     CTYPE H5T_C_S1;
+                  }
+               DATASPACE  SCALAR
+               DATA {
+               (0): "1.2"
+               }
+            }
+         }
+         GROUP "what" {
+            ATTRIBUTE "gain" {
+               DATATYPE  H5T_IEEE_F64BE
+               DATASPACE  SCALAR
+               DATA {
+               (0): 1
+               }
+            }
+            ATTRIBUTE "nodata" {
+               DATATYPE  H5T_IEEE_F64BE
+               DATASPACE  SCALAR
+               DATA {
+               (0): 1.79769e+308
+               }
+            }
+            ATTRIBUTE "offset" {
+               DATATYPE  H5T_IEEE_F64BE
+               DATASPACE  SCALAR
+               DATA {
+               (0): 0
+               }
+            }
+            ATTRIBUTE "quantity" {
+               DATATYPE  H5T_STRING {
+                     STRSIZE 5;
+                     STRPAD H5T_STR_NULLTERM;
+                     CSET H5T_CSET_ASCII;
+                     CTYPE H5T_C_S1;
+                  }
+               DATASPACE  SCALAR
+               DATA {
+               (0): "DBZH"
+               }
+            }
+            ATTRIBUTE "undetect" {
+               DATATYPE  H5T_IEEE_F64BE
+               DATASPACE  SCALAR
+               DATA {
+               (0): -1.79769e+308
+               }
+            }
+         }
+      }
+      GROUP "what" {
+         ATTRIBUTE "enddate" {
+            DATATYPE  H5T_STRING {
+                  STRSIZE 9;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+            DATASPACE  SCALAR
+            DATA {
+            (0): "20090610"
+            }
+         }
+         ATTRIBUTE "endtime" {
+            DATATYPE  H5T_STRING {
+                  STRSIZE 7;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+            DATASPACE  SCALAR
+            DATA {
+            (0): "131500"
+            }
+         }
+         ATTRIBUTE "product" {
+            DATATYPE  H5T_STRING {
+                  STRSIZE 5;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+            DATASPACE  SCALAR
+            DATA {
+            (0): "SCAN"
+            }
+         }
+         ATTRIBUTE "startdate" {
+            DATATYPE  H5T_STRING {
+                  STRSIZE 9;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+            DATASPACE  SCALAR
+            DATA {
+            (0): "20090610"
+            }
+         }
+         ATTRIBUTE "starttime" {
+            DATATYPE  H5T_STRING {
+                  STRSIZE 7;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+            DATASPACE  SCALAR
+            DATA {
+            (0): "131500"
+            }
+         }
+      }
+      GROUP "where" {
+         ATTRIBUTE "a1gate" {
+            DATATYPE  H5T_STD_I32BE
+            DATASPACE  SCALAR
+            DATA {
+            (0): 0
+            }
+         }
+         ATTRIBUTE "elangle" {
+            DATATYPE  H5T_IEEE_F64BE
+            DATASPACE  SCALAR
+            DATA {
+            (0): 1.63
+            }
+         }
+         ATTRIBUTE "nbins" {
+            DATATYPE  H5T_STD_I32BE
+            DATASPACE  SCALAR
+            DATA {
+            (0): 224
+            }
+         }
+         ATTRIBUTE "nrays" {
+            DATATYPE  H5T_STD_I32BE
+            DATASPACE  SCALAR
+            DATA {
+            (0): 360
+            }
+         }
+         ATTRIBUTE "rscale" {
+            DATATYPE  H5T_IEEE_F64BE
+            DATASPACE  SCALAR
+            DATA {
+            (0): 1000
+            }
+         }
+         ATTRIBUTE "rstart" {
+            DATATYPE  H5T_IEEE_F64BE
+            DATASPACE  SCALAR
+            DATA {
+            (0): 0
+            }
+         }
+      }
+   }
+   GROUP "dataset4" {
+      GROUP "data1" {
+         DATASET "data" {
+            DATATYPE  H5T_IEEE_F64BE
+            DATASPACE  SIMPLE { ( 360, 224 ) / ( 360, 224 ) }
+            ATTRIBUTE "CLASS" {
+               DATATYPE  H5T_STRING {
+                     STRSIZE 6;
+                     STRPAD H5T_STR_NULLTERM;
+                     CSET H5T_CSET_ASCII;
+                     CTYPE H5T_C_S1;
+                  }
+               DATASPACE  SCALAR
+               DATA {
+               (0): "IMAGE"
+               }
+            }
+            ATTRIBUTE "IMAGE_VERSION" {
+               DATATYPE  H5T_STRING {
+                     STRSIZE 4;
+                     STRPAD H5T_STR_NULLTERM;
+                     CSET H5T_CSET_ASCII;
+                     CTYPE H5T_C_S1;
+                  }
+               DATASPACE  SCALAR
+               DATA {
+               (0): "1.2"
+               }
+            }
+         }
+         GROUP "what" {
+            ATTRIBUTE "gain" {
+               DATATYPE  H5T_IEEE_F64BE
+               DATASPACE  SCALAR
+               DATA {
+               (0): 1
+               }
+            }
+            ATTRIBUTE "nodata" {
+               DATATYPE  H5T_IEEE_F64BE
+               DATASPACE  SCALAR
+               DATA {
+               (0): 1.79769e+308
+               }
+            }
+            ATTRIBUTE "offset" {
+               DATATYPE  H5T_IEEE_F64BE
+               DATASPACE  SCALAR
+               DATA {
+               (0): 0
+               }
+            }
+            ATTRIBUTE "quantity" {
+               DATATYPE  H5T_STRING {
+                     STRSIZE 5;
+                     STRPAD H5T_STR_NULLTERM;
+                     CSET H5T_CSET_ASCII;
+                     CTYPE H5T_C_S1;
+                  }
+               DATASPACE  SCALAR
+               DATA {
+               (0): "DBZH"
+               }
+            }
+            ATTRIBUTE "undetect" {
+               DATATYPE  H5T_IEEE_F64BE
+               DATASPACE  SCALAR
+               DATA {
+               (0): -1.79769e+308
+               }
+            }
+         }
+      }
+      GROUP "what" {
+         ATTRIBUTE "enddate" {
+            DATATYPE  H5T_STRING {
+                  STRSIZE 9;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+            DATASPACE  SCALAR
+            DATA {
+            (0): "20090610"
+            }
+         }
+         ATTRIBUTE "endtime" {
+            DATATYPE  H5T_STRING {
+                  STRSIZE 7;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+            DATASPACE  SCALAR
+            DATA {
+            (0): "131500"
+            }
+         }
+         ATTRIBUTE "product" {
+            DATATYPE  H5T_STRING {
+                  STRSIZE 5;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+            DATASPACE  SCALAR
+            DATA {
+            (0): "SCAN"
+            }
+         }
+         ATTRIBUTE "startdate" {
+            DATATYPE  H5T_STRING {
+                  STRSIZE 9;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+            DATASPACE  SCALAR
+            DATA {
+            (0): "20090610"
+            }
+         }
+         ATTRIBUTE "starttime" {
+            DATATYPE  H5T_STRING {
+                  STRSIZE 7;
+                  STRPAD H5T_STR_NULLTERM;
+                  CSET H5T_CSET_ASCII;
+                  CTYPE H5T_C_S1;
+               }
+            DATASPACE  SCALAR
+            DATA {
+            (0): "131500"
+            }
+         }
+      }
+      GROUP "where" {
+         ATTRIBUTE "a1gate" {
+            DATATYPE  H5T_STD_I32BE
+            DATASPACE  SCALAR
+            DATA {
+            (0): 0
+            }
+         }
+         ATTRIBUTE "elangle" {
+            DATATYPE  H5T_IEEE_F64BE
+            DATASPACE  SCALAR
+            DATA {
+            (0): 2.72
+            }
+         }
+         ATTRIBUTE "nbins" {
+            DATATYPE  H5T_STD_I32BE
+            DATASPACE  SCALAR
+            DATA {
+            (0): 224
+            }
+         }
+         ATTRIBUTE "nrays" {
+            DATATYPE  H5T_STD_I32BE
+            DATASPACE  SCALAR
+            DATA {
+            (0): 360
+            }
+         }
+         ATTRIBUTE "rscale" {
+            DATATYPE  H5T_IEEE_F64BE
+            DATASPACE  SCALAR
+            DATA {
+            (0): 1000
+            }
+         }
+         ATTRIBUTE "rstart" {
+            DATATYPE  H5T_IEEE_F64BE
+            DATASPACE  SCALAR
+            DATA {
+            (0): 0
+            }
+         }
+      }
+   }
+   GROUP "what" {
+      ATTRIBUTE "date" {
+         DATATYPE  H5T_STRING {
+               STRSIZE 9;
+               STRPAD H5T_STR_NULLTERM;
+               CSET H5T_CSET_ASCII;
+               CTYPE H5T_C_S1;
+            }
+         DATASPACE  SCALAR
+         DATA {
+         (0): "39090610"
+         }
+      }
+      ATTRIBUTE "object" {
+         DATATYPE  H5T_STRING {
+               STRSIZE 5;
+               STRPAD H5T_STR_NULLTERM;
+               CSET H5T_CSET_ASCII;
+               CTYPE H5T_C_S1;
+            }
+         DATASPACE  SCALAR
+         DATA {
+         (0): "PVOL"
+         }
+      }
+      ATTRIBUTE "source" {
+         DATATYPE  H5T_STRING {
+               STRSIZE 31;
+               STRPAD H5T_STR_NULLTERM;
+               CSET H5T_CSET_ASCII;
+               CTYPE H5T_C_S1;
+            }
+         DATASPACE  SCALAR
+         DATA {
+         (0): "PLC:Zirbitzkogel    ,WMO:11132"
+         }
+      }
+      ATTRIBUTE "time" {
+         DATATYPE  H5T_STRING {
+               STRSIZE 7;
+               STRPAD H5T_STR_NULLTERM;
+               CSET H5T_CSET_ASCII;
+               CTYPE H5T_C_S1;
+            }
+         DATASPACE  SCALAR
+         DATA {
+         (0): "131515"
+         }
+      }
+      ATTRIBUTE "version" {
+         DATATYPE  H5T_STRING {
+               STRSIZE 10;
+               STRPAD H5T_STR_NULLTERM;
+               CSET H5T_CSET_ASCII;
+               CTYPE H5T_C_S1;
+            }
+         DATASPACE  SCALAR
+         DATA {
+         (0): "H5rad 2.0"
+         }
+      }
+   }
+   GROUP "where" {
+      ATTRIBUTE "height" {
+         DATATYPE  H5T_IEEE_F64BE
+         DATASPACE  SCALAR
+         DATA {
+         (0): 2370
+         }
+      }
+      ATTRIBUTE "lat" {
+         DATATYPE  H5T_IEEE_F64BE
+         DATASPACE  SCALAR
+         DATA {
+         (0): 47.0722
+         }
+      }
+      ATTRIBUTE "lon" {
+         DATATYPE  H5T_IEEE_F64BE
+         DATASPACE  SCALAR
+         DATA {
+         (0): 14.5608
+         }
+      }
+   }
+}
+}

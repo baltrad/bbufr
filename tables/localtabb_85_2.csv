@@ -1,0 +1,57 @@
+0;01;192;Table des composites;Code table;0;0;8
+0;01;193;Table des identificateurs des donnees combinees;Code table;0;0;8
+0;02;192;Type de radar;Code table;0;0;8
+0;02;193;Type de calculateur;Code table;0;0;8
+0;02;194;Indicateur du dernier etalonnage;Code table;0;0;8
+0;02;195;Frequence du dernier etalonnage;Hz;-6;0;16
+0;02;196;Reglage bas du dernier etalonnage;Numeric;0;0;16
+0;02;197;Reglage haut du dernier etalonnage;Numeric;0;0;16
+0;02;198;Indicateur d arret ou de panne;Code table;0;0;8
+0;02;199;Constante radar;dB;1;-1000;16
+0;02;200;Indicateur de fonctionnement de l eliminateur echos fixes;Code table;0;0;2
+0;02;201;Indicateur de positionnement en site inhibe;Code table;0;0;2
+0;02;202;Sens de balayage en azimut;Code table;0;0;2
+0;05;192;Distance w-e du coin nw de l image au radar;m;0;-1024000;24
+0;05;193;Distance w-e sur le plan de projection du coin nw de l'image;m;0;-1024000;24
+0;05;194;Indicateur du centre de projection;Code Table;0;0;8
+0;05;195;Latitude de reference;degre;5;-9000000;25
+0;05;196;Taille sous image W-E;m;0;0;16
+0;05;232;Direction (spectral);Degree;0;0;12
+0;06;192;Distance n-s du coin nw de l image au radar;m;0;-1024000;24
+0;06;193;Distance d application de la correction en 1/r2;m;-3;0;16
+0;06;194;Portee de debut de traitement d un site;m;-3;0;16
+0;06;195;Portee de fin de traitement d un site;m;-3;0;16
+0;06;196;Distance oblique maximal d'utilisation des donnees;m;-3;0;16
+0;06;197;Distance NS sur le plan de projection du coin NW de l'image;m;0;-1024000;24
+0;06;198;Longitude du meridien parallele a l'axe des Y;degre;5;-18000000;26
+0;06;199;Portee hydrologique;m;-3;0;10
+0;21;192;Reflectivite minimale pour la valeur du pixel;dB;1;0;16
+0;21;193;Reflectivite maximale pour la valeur du pixel;dB;1;0;16
+0;21;194;Reflectivite theorique;dB;1;0;16
+0;21;195;Reflectivite mesuree;dB;1;0;16
+0;25;009;Calibration method;Flag table;0;0;5
+0;25;192;Methode de composition dans les zones de recouvrement;Code table;0;0;8
+0;25;193;Numero de version logicielle du calculateur;Numeric;2;0;16
+0;25;194;Numero de version de composite;Numeric;2;0;16
+0;25;195;Numero de version de carte utilisee pour composition;Numeric;0;0;8
+0;25;196;Methode de cumul;Code table;0;0;8
+0;25;197;Nombre d'images prises en compte;Numeric;0;0;24
+0;25;210;Facteur de correction global;Numeric;2;0;10
+0;29;002;Co-ordinate grid type;Code table;0;0;2
+0;30;192;Mode de balayage;Code table;0;0;8
+0;31;192;Facteur super elargi de repetition differe du descripteur;Numeric;0;0;32
+0;48;192;Bit de calage;Numeric;0;0;1
+0;49;192;Cq integrite du message;Code table;0;0;4
+0;49;193;Cq arret panne;Code table;0;0;4
+0;49;194;Cq etalonnage;Code table;0;0;4
+0;49;195;Cq eliminateur echos fixes;Code table;0;0;4
+0;49;196;Cq controle temporel;Code table;0;0;4
+0;49;197;Cq controle spatial;Code table;0;0;4
+0;49;198;Cq controle de coherence echos fixes;Code table;0;0;4
+0;49;199;Cq comparaison avec les donnees satellitaires;Code table;0;0;4
+0;49;211;Cptq images emises par le calculateur radar;Numeric;0;0;16
+0;49;212;Cptq images recues par le concentrateur;Numeric;0;0;16
+0;49;213;Cptq images emises par le concentrateur radar;Numeric;0;0;16
+0;49;214;Cptq images recues par le systeme de diffusion;Numeric;0;0;16
+0;49;215;Cptq images emises par le systeme de diffusion;Numeric;0;0;16
+0;49;216;Cptq images recues par la machine d'archivage;Numeric;0;0;16
