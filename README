@@ -14,7 +14,6 @@ The following libraries are needed to build all the programs:
   polar data, use a modified library, available here:
   http://www.knmi.nl/opera/odc/proj-4.4.9polar.tar.gz
 
-
 * HDF5 (series 1.6.x or 1.8.x)
 
 OPERA BUFR software 3.1 and OPERA BUFR tables up to 8 are included.
