@@ -4,3 +4,5 @@
 *.so
 
 
+.cproject
+.project
