@@ -207,12 +207,12 @@ int bufr_parse_new (dd *descs, int start, int end,
                     int callback_all_descs);
 int bufr_parse (dd *descs, int start, int end, varfl *vals, unsigned *vali,
                 int (*userfkt) (varfl val, int ind));
-bufrval_t* bufr_open_val_array ();
-void bufr_close_val_array ();
-int bufr_open_datasect_w ();
+bufrval_t* bufr_open_val_array (void);
+void bufr_close_val_array (void);
+int bufr_open_datasect_w (void);
 void bufr_close_datasect_w(bufr_t* msg);
 int bufr_open_datasect_r (bufr_t* msg);
-void bufr_close_datasect_r();
+void bufr_close_datasect_r(void);
 
 /* callback functions for use with bufr_parse_* */
 
@@ -221,7 +221,7 @@ int bufr_val_to_global (varfl val, int ind);
 
 /* deprecated functions */
 
-void bufr_clean ();
+void bufr_clean (void);
 int val_to_array (varfl **vals, varfl v, size_t *nvals);
 int setup_sec0125 (char *sec[], size_t secl[], sect_1_t s1);
 int save_sections (char *sec[], size_t secl[], char *buffile);
