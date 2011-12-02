@@ -4,22 +4,7 @@ check_PROGRAMS = decbufr build-composite build-compo-cumul build-local build-cum
 	build-wrwp build-wrwp-OMM build-polar build-antilles build-odim-polar bufr2hdf5 hdf2bufr \
 	build-odim-compo comp2hdf5 hdf2comp pdh2comp
 
-decbufr_SOURCES = decbufr.c
-build_composite_SOURCES = build-composite.c
-build_compo_cumul_SOURCES = build-compo-cumul.c
-build_local_SOURCES = build-local.c
-build_cumul_SOURCES = build-cumul.c
-build_wrwp_SOURCES = build-wrwp.c
-build_wrwp_OMM_SOURCES = build-wrwp-OMM.c
-build_polar_SOURCES = build-polar.c
-build_antilles_SOURCES = build-antilles.c
-build_odim_polar_SOURCES = build-odim-polar.c odim.c
 bufr2hdf5_SOURCES = bufr2hdf5.c odim.c
-hdf2bufr_SOURCES = hdf2bufr.c odim.c
-build_odim_compo_SOURCES = build-odim-compo.c odim.c
-comp2hdf5_SOURCES = comp2hdf5.c odim.c
-hdf2comp_SOURCES = hdf2comp.c odim.c
-pdh2comp_SOURCES = pdh2comp.c odim.c
 
 LDADD = ../lib/libOperaBufr.a
 
