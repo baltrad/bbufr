@@ -16,6 +16,7 @@
 #include "polar.h"
 #include "odim.h"
 
+int loc = 8; /* default local BUFR table */
 odim_polar_t odim_data; /* structure holding ODIM data */
 
 static char *table_dir = NULL;     /* directory for BUFR tables */
@@ -27,9 +28,59 @@ static char *table_dir = NULL;     /* directory for BUFR tables */
 
 #define END H5Eset_auto(old_func, old_client_data);}
 
+static herr_t aiter_cb(hid_t location_id, const char *attr_name, void *op_data) 
+{
+  char * s;
+  double val;
+  hid_t attr_id;
+  fprintf(stderr, "%s:", attr_name);
+  {
+    herr_t status;
+    hid_t attr_id = H5Aopen_name(location_id, attr_name);
+    status = H5Aread(attr_id, H5T_NATIVE_DOUBLE, &val);
+    if (status == 0) {
+      fprintf(stderr, " %g\n", val);
+      if (op_data) {
+	odim_polar_t * od = (odim_polar_t *)op_data;
+	odim_polar_how_double_t * p = od->how_double;
+	odim_polar_how_double_t * nouveau = malloc(sizeof(odim_polar_how_double_t));
+	nouveau->next = p;
+	nouveau->value = val;
+	nouveau->id = strdup(attr_name);
+	od->how_double = nouveau;
+      }
+      H5Aclose(attr_id);
+      return 0;
+    } else {
+      H5Aclose(attr_id);
+      s = H5Areadstring(location_id, attr_name);
+      if (s) {
+	fprintf(stderr, " %s\n", s);
+	if (op_data) {
+	  odim_polar_t * od = (odim_polar_t *)op_data;
+	  odim_polar_how_string_t * p = od->how_string;
+	  odim_polar_how_string_t * nouveau = malloc(sizeof(odim_polar_how_string_t));
+	  nouveau->next = p;
+	  nouveau->value = s;
+	  nouveau->id = strdup(attr_name);
+	  od->how_string = nouveau;
+	} else {
+	  free(s);
+	}
+	return 0;
+      }
+    }
+  }
+  fprintf(stderr, "Unknown type\n");
+  H5Aclose(attr_id);
+  return 0;
+}
+
+static time_t startepochs = 0;
+
 static int read_hdf5(odim_polar_t * od, char * file)
 {
-  hid_t       file_id, dataset_id, dataspace_id, root_id, group_id, attr_id, space_id, ftype;  /* identifiers */
+  hid_t       file_id, dataset_id, dataspace_id, root_id, how_id, group_id, attr_id, space_id, ftype;  /* identifiers */
   herr_t      status;
   int i, j;
   char * result;
@@ -43,16 +94,70 @@ static int read_hdf5(odim_polar_t * od, char * file)
   END
   if (!result) {
     fprintf(stderr, "Warning: Conventions missing\n");
+  } else {
+    if (strcmp(result, "ODIM_H5/V2_1") == 0) {
+      loc = 9;
+    }
   }
+
+  START
+  how_id = H5Gopen(root_id, "how");
+  if (how_id >= 0) {
+    fprintf(stderr, "===============\n");
+    fprintf(stderr, "Top how:\n");
+    {
+      int ret;
+      unsigned idx = 0;            /* Index in the attribute list */
+      od->how_string = NULL;
+      od->how_double = NULL;
+      while((ret = H5Aiterate(how_id, &idx, aiter_cb, od)) > 0) {
+	fprintf(stderr, "%d %d\n", ret, idx);
+      }
+      
+    }
+    fprintf(stderr, "===============\n");
+
+    {
+      double begins, ends;
+      attr_id = H5Aopen_name(how_id, "startepochs");
+      status = H5Aread(attr_id, H5T_NATIVE_DOUBLE, &begins);
+      if (!status) {
+	fprintf(stderr, "startepochs: %.15lg\n", begins);
+	startepochs = (time_t)begins;
+      }
+      status = H5Aclose(attr_id);
+      attr_id = H5Aopen_name(how_id, "stopepochs");
+      status = H5Aread(attr_id, H5T_NATIVE_DOUBLE, &ends);
+      if (!status) {
+	fprintf(stderr, "stopepochs: %.15lg\n", ends);
+	od->what.nominal_time = (time_t)ends;
+      }
+      status = H5Aclose(attr_id);
+    }
+	  
+    status = H5Gclose(how_id);
+  }
+  END
 
   group_id = H5Gopen(root_id, "what");
   od->what.object = H5Areadstring(group_id, "object");
+  START
   od->what.version = H5Areadstring(group_id, "version");
-
+  END
+  if (!od->what.version) { 
+    od->what.version = "H5rad 2.0"; 
+  }
   {
-    char * date = H5Areadstring(group_id, "date");
-    char * time = H5Areadstring(group_id, "time");
-    od->what.nominal_time = build_time(date, time);
+    char * date, * time;
+    START
+    date = H5Areadstring(group_id, "date");
+    time = H5Areadstring(group_id, "time");
+    END
+    if (date && time) {
+      od->what.nominal_time = build_time(date, time);
+    } else {
+      fprintf(stderr, "Warning: date or time missing, filling with stopepochs\n");
+    }
   }
   {
     char * s;
@@ -124,35 +229,80 @@ static int read_hdf5(odim_polar_t * od, char * file)
 
     char str[20];
     sprintf(str, "dataset%d", i+1);
+
     group_id = H5Gopen(root_id, str);
 
-    g_id = H5Gopen(group_id, "what");
-    result = H5Areadstring(g_id, "product");
-    assert(strcmp(result, "SCAN") == 0);
-
     START
-    {
-      char * date = H5Areadstring(g_id, "startdate");
-      char * time = H5Areadstring(g_id, "starttime");
-      od->datasets[i].dataset_what.start_time = build_time(date, time);
-    }
-    
-    {
-      char * date = H5Areadstring(g_id, "enddate");
-      char * time = H5Areadstring(g_id, "endtime");
-      if (!date || !time) {
-	fprintf(stderr, "Warning: no enddate or endtime, using startdate and starttime\n");
-	od->datasets[i].dataset_what.end_time = od->datasets[i].dataset_what.start_time;
-      } else {
-	od->datasets[i].dataset_what.end_time = build_time(date, time);;
+    how_id = H5Gopen(group_id, "how");
+    if (how_id >= 0) {
+      fprintf(stderr, "===============\n");
+      fprintf(stderr, "Dataset%d how:\n", i+1);
+      {  
+	int ret;
+	unsigned idx = 0;            /* Index in the attribute list */
+	od->datasets[i].how_string = NULL;
+	od->datasets[i].how_double = NULL;
+	while((ret = H5Aiterate(how_id, &idx, aiter_cb, &od->datasets[i])) > 0) {
+	  fprintf(stderr, "%d %d\n", ret, idx);
+	}
+	
       }
+      fprintf(stderr, "===============\n");
+      status = H5Gclose(how_id);
+    } else  {
+      fprintf(stderr, "Warning: no dataset%d how\n", i+1);
     }
     END
 
-    status = H5Gclose(g_id);
+    START
+    g_id = H5Gopen(group_id, "what");
+    END
+    if (g_id < 0) {
+      fprintf(stderr, "Warning: no dataset%d what\n", i+1);
+      od->datasets[i].dataset_what.product = "SCAN  ";
+      od->datasets[i].dataset_what.start_time = startepochs;
+      od->datasets[i].dataset_what.end_time = od->what.nominal_time;
+    } else {
+      od->datasets[i].dataset_what.product = result = H5Areadstring(g_id, "product");
+      assert((strcmp(result, "SCAN") == 0) || (strcmp(result, "SCAN  ") == 0));
 
+      START
+	{
+	  char * date, * time;
+	  START
+	  date = H5Areadstring(g_id, "startdate");
+	  time = H5Areadstring(g_id, "starttime");
+	  END
+	    if (date && time) {
+	      od->datasets[i].dataset_what.start_time = build_time(date, time);
+	    } else {
+	      fprintf(stderr, "Warning: startdate or starttime missing, filling with bogus\n");
+	      od->datasets[i].dataset_what.start_time = build_time("19990101", "120000");
+	    }
+	}
+    
+      {
+	char * date = H5Areadstring(g_id, "enddate");
+	char * time = H5Areadstring(g_id, "endtime");
+	if (!date || !time) {
+	  fprintf(stderr, "Warning: no enddate or endtime, using startdate and starttime\n");
+	  od->datasets[i].dataset_what.end_time = od->datasets[i].dataset_what.start_time;
+	} else {
+	  od->datasets[i].dataset_what.end_time = build_time(date, time);
+	}
+      }
+      END
+
+      status = H5Gclose(g_id);
+    }
+
+    START
     g_id = H5Gopen(group_id, "where");
-
+    END
+    if (g_id < 0) {
+      fprintf(stderr, "Warning: no dataset%d where, trying global where...\n", i+1);
+      g_id = H5Gopen(root_id, "where");
+    }
     START
     attr_id = H5Aopen_name(g_id, "elangle");
     END
@@ -245,13 +395,34 @@ static int read_hdf5(odim_polar_t * od, char * file)
       if (od->datasets[i].dataset_data[j].data) {
 	hid_t g_id;
 	data_id = H5Gopen(group_id, str);
+
+	START
+	how_id = H5Gopen(data_id, "how");
+	if (how_id >= 0) {
+	  fprintf(stderr, "===============\n");
+	  fprintf(stderr, "Data%d how:\n", j+1);
+	  {  
+	    int ret;
+	    unsigned idx = 0;            /* Index in the attribute list */
+	    od->datasets[i].dataset_data[j].how_string = NULL;
+	    od->datasets[i].dataset_data[j].how_double = NULL;
+	    while((ret = H5Aiterate(how_id, &idx, aiter_cb, &od->datasets[i].dataset_data[j])) > 0) {
+	      fprintf(stderr, "%d %d\n", ret, idx);
+	    }
+	  }
+	  fprintf(stderr, "===============\n");
+	  status = H5Gclose(how_id);
+	}
+	END
+
 	g_id = H5Gopen(data_id, "what");
 
 	od->datasets[i].dataset_data[j].dataset_what.quantity = H5Areadstring(g_id, "quantity");
 	if (strcmp(od->datasets[i].dataset_data[j].dataset_what.quantity, "TH") &&
 	    strcmp(od->datasets[i].dataset_data[j].dataset_what.quantity, "DBZH") &&
 	    strcmp(od->datasets[i].dataset_data[j].dataset_what.quantity, "WRAD") &&
-	    strcmp(od->datasets[i].dataset_data[j].dataset_what.quantity, "VRAD")) {
+	    strcmp(od->datasets[i].dataset_data[j].dataset_what.quantity, "WRAD") &&
+	    strcmp(od->datasets[i].dataset_data[j].dataset_what.quantity, "RATE")) {
 	  fprintf(stderr, "Warning: Unknown quantity %s\n", od->datasets[i].dataset_data[j].dataset_what.quantity);
 	}
 	fprintf(stderr, "Quantity %s\n", od->datasets[i].dataset_data[j].dataset_what.quantity);
@@ -393,8 +564,8 @@ static int write_opera(sect_1_t *s1_in, dd *descr, int iout, varfl *v, char *out
   s1.dcat = s1_in->dcat;            /* message type */
   s1.dcatst = s1_in->dcatst;        /* message subtype */
   s1.idcatst = s1_in->idcatst;
-  s1.vmtab = 13;                    /* version number of master table used */
-  s1.vltab = 7;                     /* version number of local table used */
+  s1.vmtab = (loc == 9 ? 16 : 13);    /* version number of master table used */
+  s1.vltab = loc;                     /* version number of local table used */
 
   _bufr_edition = 4;
   header_dump(&s1);
@@ -479,9 +650,18 @@ static int recode_opera_local (odim_polar_t *od, char *outfile, sect_1_t *s1_in)
 	    break;
 	  }
 	}
-	int omm = atoi(od->what.source[j].value);
-	fill_v(omm / 1000); 
-	fill_v(omm % 1000);
+	{
+	  long omm = atol(od->what.source[j].value);
+	  if (omm > 99999) {
+	    fprintf(stderr, "bogus OMM: %ld\n", omm);
+	    /* in case we get a bogus WMO number */
+	    fill_v(MISSVAL); 
+	    fill_v(MISSVAL);
+	  } else {
+	    fill_v(omm / 1000); 
+	    fill_v(omm % 1000);
+	  }
+	}
     } else {
       /*fprintf(stderr, "OMM missing\n");*/
       fill_v(MISSVAL); 
@@ -540,10 +720,250 @@ static int recode_opera_local (odim_polar_t *od, char *outfile, sect_1_t *s1_in)
 	  fill_v(40);
 	} else if ((strcmp(od->datasets[ii].dataset_data[jj].dataset_what.quantity, "TH") == 0)) {
 	  fill_v(91);
+	} else if ((strcmp(od->datasets[ii].dataset_data[jj].dataset_what.quantity, "RATE") == 0)) {
+	  fill_v(93);
 	} else if ((strcmp(od->datasets[ii].dataset_data[jj].dataset_what.quantity, "WRAD") == 0)) {
 	  fill_v(92);
 	} else { /* polar volume reflectivity or radial wind */
 	  fprintf(stderr, "Warning: Unknown quantity %s\n", od->datasets[ii].dataset_data[jj].dataset_what.quantity);
+	}
+	fill_v(0); /* zlib compression */
+	{
+	int i, ncomp, n = od->datasets[ii].dataset_where.nbins*od->datasets[ii].dataset_where.nrays;
+	unsigned char * result;
+	/*assert(od->datasets[ii].dataset_data[jj].dataset_what.gain == 1);
+	  assert(od->datasets[ii].dataset_data[jj].dataset_what.offset == 0);*/
+	/*assert(od->datasets[ii].dataset_data[jj].dataset_what.nodata == DBL_MAX);
+	  assert(od->datasets[ii].dataset_data[jj].dataset_what.undetect == -DBL_MAX);*/
+	assert(result = my_compress(od->datasets[ii].dataset_data[jj].data, n, &ncomp));
+	fprintf(stderr, "%d (%d packets, rest %d)\n", ncomp, ncomp/65534 + 1, ncomp%65534);
+	fill_v(ncomp/65534 + 1);
+	for (i = 0; i < ncomp/65534; ++i) {
+	  fill_v(65534); 
+	  /*fprintf(stderr, "%d\n", 65534);*/
+	  for (n = 0; n < 65534; ++n) {
+	    fill_v(result[n + i*65534]); 
+	  }
+	}
+	fill_v(ncomp%65534);
+	for (n = 0; n < ncomp%65534; ++n) {
+	  fill_v(result[n + (ncomp/65534)*65534]); 
+	}
+	free(result);
+	}
+      }
+    }
+  }
+
+  free_descs();
+
+  /* Now building new transcoded BUFR message */
+  fprintf (stderr, "Output file header:\n");
+  return write_opera(s1_in, descr, iout, v, outfile);
+
+}
+
+#define fill_how(p0, pp0) \
+    { \
+      int len = 0; \
+      odim_polar_how_string_t * p = p0; \
+      while (p) { \
+	len++; \
+	p = p->next; \
+      } \
+      fill_v(len); \
+ \
+      p = p0; \
+      while (p) { \
+	{ \
+	  int jj, i = 0;  \
+	  const char * s = p->id; \
+	  for (jj = 0; (i < 16) && (jj < strlen(s)); ++jj) {       \
+	    fill_v(s[jj]); ++i; \
+	  } \
+	  while (i < 16) { \
+	    fill_v(' '); ++i; \
+	  } \
+	  s = p->value; i = 0; \
+	  for (jj = 0; (i < 16) && (jj < strlen(s)); ++jj) {       \
+	    fill_v(s[jj]); ++i; \
+	  } \
+	  while (i < 16) { \
+	    fill_v(' '); ++i; \
+	  } \
+	} \
+	p = p->next; \
+      } \
+    } \
+    { \
+      int len = 0; \
+      odim_polar_how_double_t * p = pp0; \
+      while (p) { \
+	len++; \
+	p = p->next; \
+      } \
+      fill_v(len); \
+ \
+      p = pp0; \
+      while (p) { \
+	{ \
+	  int jj, i = 0;  \
+	  const char * s = p->id; \
+	  const unsigned char * ss; \
+	  for (jj = 0; (i < 16) && (jj < strlen(s)); ++jj) {       \
+	    fill_v(s[jj]); ++i; \
+	  } \
+	  while (i < 16) { \
+	    fill_v(' '); ++i; \
+	  } 	\
+	  ss = (unsigned char *)&p->value;		\
+	  for (jj = 0; jj < 8; ++jj) {       \
+	    fill_v(ss[jj]); \
+	    }	\
+	} \
+	p = p->next; \
+      } \
+    }
+
+static int recode_opera_local_v2_1 (odim_polar_t *od, char *outfile, sect_1_t *s1_in)
+/* This function recodes a BUFR-message; returns 1 on success, 0 on a fault.*/
+{
+  int iout = 0;
+  unsigned int jout = 0;
+
+  dd descr[MAX_DESCS]; /* This array must be huge enough to hold all required descriptors */
+  varfl *v = 0;        /* This array must be huge enough to hold all corresponding data values */
+
+  /* The data we are interested in is read to array 'v' 
+     and the corresponding descriptors are in array 'descr' */
+
+  int ii, flag_omm = 0;
+  
+  for (ii = 0; ii < od->what.nstations; ++ii) {
+    if (strcmp(od->what.source[ii].identifier, "WMO") == 0) {
+      flag_omm = 1; 
+      break;
+    }
+  }
+
+  /* Output phase */
+  {
+    int ii, jj; 
+
+    fill_desc(3,21,204);
+    /*fprintf(stderr, "nstations %d %d\n", od->what.nstations, flag_omm);*/
+    if (flag_omm) {
+      fill_v(od->what.nstations-1);
+    } else {
+      fill_v(od->what.nstations);
+    }
+    for (ii = 0; ii < od->what.nstations; ++ii) {
+      if (strcmp(od->what.source[ii].identifier, "WMO")) {
+	for (jj = 0; jj < 3; ++jj) {      
+	  fill_v(od->what.source[ii].identifier[jj]);
+	}
+	for (jj = 0; jj < strlen(od->what.source[ii].value); ++jj) {      
+	  fill_v(od->what.source[ii].value[jj]);
+	}
+	for (jj = strlen(od->what.source[ii].value); jj < 16; ++jj) {      
+	  fill_v(0);
+	}
+      }
+    }
+
+    fill_desc(3,1,31);
+    if (flag_omm) {
+	int j;
+	for (j = 0; j < od->what.nstations; ++j) {
+	  if (strcmp(od->what.source[j].identifier, "WMO") == 0) {
+	    break;
+	  }
+	}
+	{
+	  long omm = atol(od->what.source[j].value);
+	  if (omm > 99999) {
+	    fprintf(stderr, "bogus OMM: %ld\n", omm);
+	    /* in case we get a bogus WMO number */
+	    fill_v(MISSVAL); 
+	    fill_v(MISSVAL);
+	  } else {
+	    fill_v(omm / 1000); 
+	    fill_v(omm % 1000);
+	  }
+	}
+    } else {
+      /*fprintf(stderr, "OMM missing\n");*/
+      fill_v(MISSVAL); 
+      fill_v(MISSVAL);
+    }
+
+    fill_v(0); /* automatic station */
+  
+    {
+      struct tm * local = gmtime(&od->what.nominal_time);
+      fill_v(local->tm_year+1900); 
+      fill_v(local->tm_mon+1);
+      fill_v(local->tm_mday);
+      fill_v(local->tm_hour);
+      fill_v(local->tm_min);
+    }
+
+    /* fill_desc(0,5,1); */
+    fill_v(od->where.lat); 
+    
+    /* fill_desc(0,6,1); */
+    fill_v(od->where.lon); 
+    
+    /* fill_desc(0,7,1); */
+    fill_v(od->where.height); 
+
+    fill_desc(3,21,207);
+    fill_how(od->how_string, od->how_double)
+    fill_v(od->nscans);
+    for (ii = 0; ii < od->nscans; ++ii) {
+      struct tm * local = gmtime(&od->datasets[ii].dataset_what.start_time);
+      fill_how(od->datasets[ii].how_string, od->datasets[ii].how_double)
+      fill_v(local->tm_year+1900); 
+      fill_v(local->tm_mon+1);
+      fill_v(local->tm_mday);
+      fill_v(local->tm_hour);
+      fill_v(local->tm_min);
+      fill_v(local->tm_sec);
+      local = gmtime(&od->datasets[ii].dataset_what.end_time);
+      fill_v(local->tm_year+1900); 
+      fill_v(local->tm_mon+1);
+      fill_v(local->tm_mday);
+      fill_v(local->tm_hour);
+      fill_v(local->tm_min);
+      fill_v(local->tm_sec);
+      {
+	char * s = od->datasets[ii].dataset_what.product;
+	assert(strlen(s) <= 6);
+	for (jj = 0; jj < strlen(s); ++jj) {      
+	  fill_v(s[jj]);
+	}
+	for (jj = strlen(s); jj < 6; ++jj) {      
+	  fill_v(' ');
+	}
+      }
+      fill_v(od->datasets[ii].dataset_where.elangle);
+      fill_v(od->datasets[ii].dataset_where.nbins);
+      fill_v(od->datasets[ii].dataset_where.rscale);
+      fill_v(od->datasets[ii].dataset_where.rstart);
+      fill_v(od->datasets[ii].dataset_where.nrays);
+      fill_v(od->datasets[ii].dataset_where.a1gate);
+      fill_v(od->datasets[ii].nparams); fprintf(stderr, "nparms = %d\n", od->datasets[ii].nparams);
+      for (jj = 0; jj < od->datasets[ii].nparams; ++jj) {
+        fill_how(od->datasets[ii].dataset_data[jj].how_string, od->datasets[ii].dataset_data[jj].how_double)
+	{
+	  int k;
+	  char * s = od->datasets[ii].dataset_data[jj].dataset_what.quantity;
+	  for (k = 0; k < strlen(s); ++k) {      
+	    fill_v(s[k]);
+	  }
+	  for (k = strlen(s); k < 6; ++k) {      
+	    fill_v(' ');
+	  }
 	}
 	fill_v(0); /* zlib compression */
 	{
@@ -642,9 +1062,17 @@ int main (int argc, char *argv[])
   s1.dcat = 6;            /* message type */
   s1.dcatst = 0;        /* message subtype */
   s1.idcatst = 0;        /* message subtype */
-  if (!recode_opera_local (&odim_data, argv[2], &s1)) {
-    fprintf (stderr, "FATAL: Unable to recode BUFR-message !\n");
-    exit (EXIT_FAILURE);
+  {
+    int status;
+    if (loc == 8) {
+      status = recode_opera_local (&odim_data, argv[2], &s1);
+    } else { 
+      status = recode_opera_local_v2_1 (&odim_data, argv[2], &s1);
+    }
+    if (!status) {
+      fprintf (stderr, "FATAL: Unable to recode BUFR-message !\n");
+      exit (EXIT_FAILURE);
+    }
   }
   free_descs();
   exit (EXIT_SUCCESS);

@@ -21,7 +21,7 @@
 ----------------------------------------------------------------------------
 
 FILE:          BUFR.H
-IDENT:         $Id: bufr.h,v 1.9 2009/05/15 15:10:12 helmutp Exp $
+IDENT:         $Id: bufr.h,v 1.10 2012/10/12 14:52:17 helmutp Exp $
 
 AUTHORS:       Juergen Fuchsberger, Helmut Paulitsch, Konrad Koeck
                Institute of Communication and Wave Propagation, 
@@ -41,6 +41,9 @@ Includefile for BUFR.C. More details can be found there.
 AMENDMENT RECORD:
 
 $Log: bufr.h,v $
+Revision 1.10  2012/10/12 14:52:17  helmutp
+default bufr edition 4
+
 Revision 1.9  2009/05/15 15:10:12  helmutp
 api change to support subsets
 
@@ -207,12 +210,12 @@ int bufr_parse_new (dd *descs, int start, int end,
                     int callback_all_descs);
 int bufr_parse (dd *descs, int start, int end, varfl *vals, unsigned *vali,
                 int (*userfkt) (varfl val, int ind));
-bufrval_t* bufr_open_val_array (void);
-void bufr_close_val_array (void);
-int bufr_open_datasect_w (void);
+bufrval_t* bufr_open_val_array ();
+void bufr_close_val_array ();
+int bufr_open_datasect_w ();
 void bufr_close_datasect_w(bufr_t* msg);
 int bufr_open_datasect_r (bufr_t* msg);
-void bufr_close_datasect_r(void);
+void bufr_close_datasect_r();
 
 /* callback functions for use with bufr_parse_* */
 
@@ -221,7 +224,7 @@ int bufr_val_to_global (varfl val, int ind);
 
 /* deprecated functions */
 
-void bufr_clean (void);
+void bufr_clean ();
 int val_to_array (varfl **vals, varfl v, size_t *nvals);
 int setup_sec0125 (char *sec[], size_t secl[], sect_1_t s1);
 int save_sections (char *sec[], size_t secl[], char *buffile);

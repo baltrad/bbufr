@@ -1,3 +1,4 @@
+#include <endian.h>
 #include "odim.h"
 
 unsigned char * my_compress(varfl * buf, int n, int * ncomp)
@@ -10,7 +11,12 @@ unsigned char * my_compress(varfl * buf, int n, int * ncomp)
   for (i = 0; i < nchar/sizeof(varfl); ++i) {
     unsigned char * p = (unsigned char *)(&buf[i]);
     for (j = 0; j < sizeof(varfl); ++j) {
+#if __BYTE_ORDER == __BIG_ENDIAN
+      tempo[i*sizeof(varfl)+j] = p[sizeof(varfl) - 1 - j];
+      
+#else
       tempo[i*sizeof(varfl)+j] = p[j];
+#endif
     }
   }
   if (compress(CompDataBuff, &DestBuffSize,
@@ -25,11 +31,23 @@ unsigned char * my_compress(varfl * buf, int n, int * ncomp)
 
 varfl * my_decompress(unsigned char * buf, unsigned long n, int * ndecomp)
 {
+  int i, j;
+  unsigned char str[sizeof(varfl)];
   unsigned char * UnCompDataBuff = malloc(*ndecomp);
   unsigned long DestBuffSize = *ndecomp;
   if (uncompress(UnCompDataBuff, &DestBuffSize, buf, n) != Z_OK) {
     return NULL;
   }
+#if __BYTE_ORDER == __BIG_ENDIAN
+  for (i = 0; i < *ndecomp/sizeof(varfl); ++i) {
+    for (j = 0; j < sizeof(varfl); ++j) {
+      str[j] = UnCompDataBuff[i*sizeof(varfl)+j];
+    }
+    for (j = 0; j < sizeof(varfl); ++j) {
+      UnCompDataBuff[i*sizeof(varfl)+j] = str[sizeof(varfl) - 1 - j];
+    }
+  }
+#endif
   return (varfl *)UnCompDataBuff;
 }
 
@@ -153,7 +171,7 @@ herr_t H5Acreatestring(hid_t root_id, char * name, char * s)
   return status;
 }
 
-char * H5Areadstring(hid_t root_id, char * name)
+char * H5Areadstring(hid_t root_id, const char * name)
 {
   hid_t strtype, attr_id;
   herr_t status;
@@ -192,11 +210,11 @@ char * H5Areadstring(hid_t root_id, char * name)
 
     type = H5Tget_native_type(ftype, H5T_DIR_ASCEND);
 
-    s = malloc(size);
+    s = malloc(size+1);
     status = H5Aread(attr_id, type, s);
     status = H5Tclose(ftype);
     status = H5Tclose(type);
-    /*fprintf(stderr, "%.*s\n", size, s);*/
+    /*fprintf(stderr, "--%.*s--\n", size, s);*/
   }
 
   status = H5Aclose(attr_id);
@@ -204,6 +222,8 @@ char * H5Areadstring(hid_t root_id, char * name)
     free(s);
     return 0;
   }
+
+  s[size] = '\0';
   return s;
   
 }

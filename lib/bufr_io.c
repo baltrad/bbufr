@@ -21,7 +21,7 @@
 ----------------------------------------------------------------------------
 
 FILE:          BUFR_IO.C
-IDENT:         $Id: bufr_io.c,v 1.10 2010/05/27 17:36:57 helmutp Exp $
+IDENT:         $Id: bufr_io.c,v 1.11 2012/10/12 14:56:23 helmutp Exp $
 
 AUTHORS:       Juergen Fuchsberger, Helmut Paulitsch
                Institute of Broadband Communication
@@ -37,6 +37,9 @@ STATUS:        DEVELOPMENT FINISHED
 AMENDMENT RECORD:
 
 $Log: bufr_io.c,v $
+Revision 1.11  2012/10/12 14:56:23  helmutp
+added functions to z-compress to/from memory
+
 Revision 1.10  2010/05/27 17:36:57  helmutp
 allow longer input lines and replace 0x0 characters
 in CCITT ascii by 0x20
@@ -277,12 +280,11 @@ int bufr_data_to_file (char* file, char* imgfile, bufr_t* msg) {
     /* calculate number of data descriptors  */
     
     ndescs = bufr_get_ndescs (msg);
-
+    
     /* allocate memory and read data descriptors from bitstream */
 
     if (ok) 
         ok = bufr_in_descsec (&dds, ndescs, desch);
-
 
     /* output data and descriptors */
 
@@ -787,7 +789,7 @@ static int bufr_file_out (varfl val, int ind)
             }
 #endif
             else {
-                sprintf (sval, "%13.5f", val);
+                sprintf (sval, "%15.7f", val);
             }
 
             /* do we have a descriptor before the data element? */
@@ -1244,7 +1246,7 @@ void byteswap64 (unsigned char *buf, int n)
  *  The float-bytes are swapped if the host representation is different
  *  from the IEEE byte order. 
 
-    \param[in] infile  Name of input file
+    \param[in] outfile  Name of output file
     \param[in,out] vals    Array of compressed bytes stored as bufr values
     \param[in,out] nvals   Number of values in the array
     \return 1 for success, 0 on error
@@ -1397,6 +1399,159 @@ int z_compress_from_file (char* infile, varfl* *vals, int* nvals)
         if (n > 0)
             break;
     }
+    free (cbuf);
+    return sz == 0;
+}
+
+
+/*===========================================================================*/
+/** z-decompression of array of bufr values with compressed bytes.
+ *  Writes 64bit floats in platfrom native to a memory area. 
+ *  The float-bytes are swapped if the host representation is different
+ *  from the IEEE byte order. 
+
+    \param[in,out] data  Pointer to receive data array
+    \param[in,out] vals    Array of compressed bytes stored as bufr values
+    \param[in,out] nvals   Number of values in the array
+    \return number of data values or 0 on error
+*/
+int bufr_z_decompress_to_mem (varfl **data, varfl* vals, int* nvals)
+{
+    unsigned char *cbuf, *buf, *outbuf;
+    int i, nv, ncols, nrows, sz, out_size, out_used;
+    z_stream zs;
+    
+    memset (&zs, 0, sizeof(zs));
+
+    cbuf = malloc (MAXBLOCK);
+    buf = malloc (MAXBLOCK);
+    outbuf = malloc (MAXBLOCK);
+    out_size = MAXBLOCK;
+    out_used = 0;
+    
+    if (cbuf == NULL || buf == NULL || outbuf == NULL)
+    {
+        fprintf (stderr, "malloc error\n");
+        if (cbuf != NULL) free (cbuf);
+        if (buf != NULL) free (buf);
+        if (outbuf != NULL) free (outbuf);
+        return 0;
+    }
+    
+    inflateInit (&zs);
+    
+    sz = 0;
+    nv = 0;
+    nv++;
+    nrows = vals[nv++];
+    while (nrows-- > 0)
+    {
+        ncols = vals[nv++];
+        for (i = 0; i < ncols; i++)
+        {
+            cbuf[i] = (unsigned char) vals[nv++];
+        }
+        zs.next_in = cbuf;
+        zs.avail_in = ncols;
+        while (zs.avail_in > 0)
+        {
+            int err;
+            zs.next_out = buf + sz;
+            zs.avail_out = MAXBLOCK - sz;
+            err = inflate (&zs, Z_SYNC_FLUSH);
+            if (err != Z_OK && err != Z_STREAM_END)
+                break;
+
+            sz = (MAXBLOCK - zs.avail_out) / 8 * 8;
+            byteswap64 (buf, sz);
+            if (out_size - out_used < sz)
+            {
+                out_size = 2 * (out_size + MAXBLOCK);
+                outbuf = realloc (outbuf, out_size);
+                if (outbuf == NULL)
+                {
+                    inflateEnd (&zs);
+                    free (cbuf);
+                    free (buf);
+                    return 0;
+                }
+            }
+            
+            memcpy (outbuf + out_used, buf, sz);
+            out_used += sz;
+            sz = MAXBLOCK - zs.avail_out - sz;
+            if (sz > 0)
+                memmove (buf, buf + MAXBLOCK - zs.avail_out - sz, sz);
+        }
+    }
+
+    inflateEnd (&zs);
+    free (buf);
+    free (cbuf);
+    *nvals = nv;
+    *data = (varfl *) outbuf;
+    return out_used / 8;
+}
+
+/*===========================================================================*/
+/** Reads 64bit floats in platfrom native form from file, apllies 
+ *  z-compression and puts the compressed bytes as bufr values in the array.
+ *  The float-bytes are swapped if the host representation is different
+ *  from the IEEE byte order. 
+
+    \param[in] data  Array of data elements
+    \param[in] ndata  Number of data elements
+    \param[in,out] vals    Array of compressed bytes stored as bufr values
+    \param[in,out] nvals   Number of values in the array
+    \return 1 for success, 0 on error
+*/
+int bufr_z_compress_from_mem (varfl *data, int ndata, varfl* *vals, int* nvals)
+{
+    int nv, sz, n;
+    unsigned char *buf, *cbuf;
+    unsigned long sz1;
+    
+    sz = 8 * ndata;
+    buf = (unsigned char *) data;
+    byteswap64 (buf, sz);
+    
+    sz1 = sz + sz / 1000 + 100 + 12;
+    if ((cbuf = malloc (sz1)) == NULL)
+    {
+        byteswap64 (buf, sz);
+        fprintf (stderr, "malloc error\n");
+        return 0;
+    }
+    if (compress (cbuf, &sz1, buf, sz) != Z_OK)
+    {
+        byteswap64 (buf, sz);
+        free (cbuf);
+        fprintf (stderr, "compress error\n");
+        return 0;
+    }
+    
+    byteswap64 (buf, sz);
+    buf = cbuf;
+    sz = sz1;
+    nv = (sz + MAXBLOCK - 1) / (MAXBLOCK);
+    
+    bufr_val_to_array (vals, 0, nvals);
+    bufr_val_to_array (vals, nv, nvals);
+
+    while (nv-- > 0)
+    {
+        n = sz < MAXBLOCK ? sz : MAXBLOCK;
+        bufr_val_to_array (vals, n, nvals);
+        while (n-- > 0)
+        {
+            if (bufr_val_to_array (vals, *buf++, nvals) == 0)
+                break;
+            sz--;
+        }
+        if (n > 0)
+            break;
+    }
+    free (cbuf);
     return sz == 0;
 }
 
@@ -1405,8 +1560,8 @@ int z_compress_from_file (char* infile, varfl* *vals, int* nvals)
 void z_test()
 {
     bufrval_t* vals;
-    varfl v;
-    int i, nvals;
+    varfl v, *data;
+    int i, n, nvals;
     FILE *f;
     
     f = fopen ("test.1", "w");
@@ -1419,9 +1574,19 @@ void z_test()
 
     vals = bufr_open_val_array();
     z_compress_from_file ("test.1", &vals->vals, &vals->nvals);
+    n = bufr_z_decompress_to_mem (&data, vals->vals, &nvals);
+    bufr_close_val_array();
+
+    vals = bufr_open_val_array();
+    bufr_z_compress_from_mem (data, n, &vals->vals, &nvals);
     z_decompress_to_file ("test.2", vals->vals, &nvals);
     bufr_close_val_array();
 
+    f = fopen ("test.2", "w");
+    fwrite (data, 8, n, f);
+    fclose (f);
+    free(data);
+  
     f = fopen ("test.2", "r");
     for (i = 0; i < 100000; i++)
     {

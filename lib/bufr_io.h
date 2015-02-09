@@ -21,7 +21,7 @@
 ----------------------------------------------------------------------------
 
 FILE:          BUFR_IO.H
-IDENT:         $Id: bufr_io.h,v 1.2 2007/12/18 14:40:58 fuxi Exp $
+IDENT:         $Id: bufr_io.h,v 1.3 2012/10/12 14:52:56 helmutp Exp $
 
 AUTHOR:        Juergen Fuchsberger
                Institute of Broadband Communication, 
@@ -36,6 +36,9 @@ STATUS:        DEVELOPMENT FINISHED
 AMENDMENT RECORD:
 
 $Log: bufr_io.h,v $
+Revision 1.3  2012/10/12 14:52:56  helmutp
+added functions to z-compress to/from memory
+
 Revision 1.2  2007/12/18 14:40:58  fuxi
 added licence header
 
@@ -58,5 +61,7 @@ Initial revision
 
 int bufr_data_from_file(char* file, bufr_t* msg);
 int bufr_data_to_file (char* file, char* imgfile, bufr_t* msg);
+int bufr_z_decompress_to_mem (varfl **data, varfl* vals, int* nvals);
+int bufr_z_compress_from_mem (varfl *data, int ndata, varfl* *vals, int* nvals);
 
 #endif

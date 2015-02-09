@@ -57,17 +57,17 @@ void deinit(FILE** fp, png_structpp png_ptr_ptr, png_infopp info_ptr_ptr){
   fclose(*fp);
 }
 
-void writeData(png_structp png_ptr,png_infop info_ptr,odim_polar_t* od){
-  varfl* p = od->datasets[0].dataset_data[0].data;
+void writeData(png_structp png_ptr,png_infop info_ptr,odim_polar_t* od, int nscan, int ndataset){
+  varfl* p = od->datasets[nscan].dataset_data[ndataset].data;
   
-  int height = od->datasets[0].dataset_where.nrays;
-  int width = od->datasets[0].dataset_where.nbins;
+  int height = od->datasets[nscan].dataset_where.nrays;
+  int width = od->datasets[nscan].dataset_where.nbins;
 
   unsigned char * row = calloc(height*width, sizeof(unsigned char));
   int i;
 
   for (i = 0; i < height*width; i++) {
-    if (p[i] == od->datasets[0].dataset_data[0].dataset_what.nodata) {
+    if (p[i] == od->datasets[nscan].dataset_data[ndataset].dataset_what.nodata) {
       row[i] = 255;
     } else if (p[i] < 0) {
       row[i] = 0;
@@ -86,7 +86,7 @@ void writeData(png_structp png_ptr,png_infop info_ptr,odim_polar_t* od){
   free(row);
 }
 
-void writeInfo(png_structp png_ptr, png_infop info_ptr, odim_polar_t* od){
+void writeInfo(png_structp png_ptr, png_infop info_ptr, odim_polar_t* od, int nscan, int ndataset){
   int count;
   int size_palette;
   png_color palette[256] = {{255, 255, 255}, {255, 255, 255}, {255, 255, 255}, {255, 255, 255}, /* "White" */
@@ -110,7 +110,7 @@ void writeInfo(png_structp png_ptr, png_infop info_ptr, odim_polar_t* od){
   png_color no_value = {255, 192, 203}; /* Pink */
 
   png_set_invert_alpha(png_ptr);
-  png_set_IHDR(png_ptr, info_ptr,od->datasets[0].dataset_where.nbins, od->datasets[0].dataset_where.nrays, 8,
+  png_set_IHDR(png_ptr, info_ptr,od->datasets[nscan].dataset_where.nbins, od->datasets[nscan].dataset_where.nrays, 8,
       PNG_COLOR_TYPE_PALETTE, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 
   size_palette = 256; /*(image->depth == PIXEL4BIT) ?  16 : 256;*/
@@ -134,23 +134,72 @@ void writeInfo(png_structp png_ptr, png_infop info_ptr, odim_polar_t* od){
 
 odim_polar_t odim_data; /* structure holding ODIM data */
 
-static int write_hdf5(odim_polar_t * od, char * file)
+static int write_png(odim_polar_t * od, char * file)
 {
   hid_t       file_id, dataset_id, dataspace_id, root_id, group_id, attr_id, space_id;  /* identifiers */
   herr_t      status;
   int i, j;
+  char* fileout;
 
-  png_structp png_ptr = NULL;
-  png_infop info_ptr = NULL;
+  for (i=0;i<od->nscans;i++) {
+      for (j=0;j<od->datasets[i].nparams;j++) {
+          fileout=calloc(strlen(file)+17,sizeof(char));
+          sprintf(fileout,"scan%i_dataset%i_%s",i,j,file);
 
-  FILE* fp=initPngFile(file, &png_ptr, &info_ptr); 
-  if (!fp) return 1;
+          png_structp png_ptr = NULL;
+          png_infop info_ptr = NULL;
 
-  writeInfo(png_ptr, info_ptr, od);
-  writeData(png_ptr, info_ptr, od);
-  deinit(&fp, &png_ptr, &info_ptr);
+          FILE* fp=initPngFile(fileout, &png_ptr, &info_ptr); 
+          if (!fp) return 1;
+
+          writeInfo(png_ptr, info_ptr, od, i ,j);
+          writeData(png_ptr, info_ptr, od, i ,j);
+          deinit(&fp, &png_ptr, &info_ptr);
+      }
+  }
 
   return 1;
+}
+
+static void how(odim_polar_how_string_t ** un, odim_polar_how_double_t ** deux, varfl * vv, int * ii)
+{
+  int k, n, m, i = *ii;
+  n = vv[i++];
+  *un = NULL;
+  for (m = 0; m < n; ++m) {
+    odim_polar_how_string_t * old = *un;
+    odim_polar_how_string_t * p = malloc(sizeof(odim_polar_how_string_t));
+    char * s1 = calloc(16, sizeof(char));
+    char * s2 = calloc(16, sizeof(char));
+    for (k = 0; k < 16; ++k) {
+      s1[k] = vv[i++];
+    }
+    for (k = 0; k < 16; ++k) {
+      s2[k] = vv[i++];
+    }
+    p->id = s1;
+    p->value = s2;
+    p->next = old;
+    *un = p;
+  }
+  n = vv[i++];
+  *deux = NULL;
+  for (m = 0; m < n; ++m) {
+    odim_polar_how_double_t * old = *deux;
+    odim_polar_how_double_t * p = malloc(sizeof(odim_polar_how_double_t));
+    char * s1 = calloc(16, sizeof(char));
+    char * s2 = (char *)&p->value;
+    for (k = 0; k < 16; ++k) {
+      s1[k] = vv[i++];
+    }
+    for (k = 0; k < 8; ++k) {
+      s2[k] = vv[i++];
+    }
+    p->id = s1;
+    p->next = old;
+    *deux = p;
+  }
+  *ii = i;
 }
 
 static int our_callback (varfl val, int ind) {
@@ -319,7 +368,121 @@ static int our_callback (varfl val, int ind) {
 	    }
 	  }
 	}
-	/* ODIM stations */
+	/* ODIM */
+        else if (bufr_check_fxy (d, 3,21,207)) {
+	  int ii, jj, i = 0;
+	  how(&od->how_string, &od->how_double, vv, &i);
+	  od->nscans = vv[i++];
+	  od->datasets = calloc(od->nscans, sizeof(odim_polar_dataset_t));
+	  for (ii = 0; ii < od->nscans; ++ii) {
+	    odim_polar_dataset_t * ds = &od->datasets[ii];
+	    how(&ds->how_string, &ds->how_double, vv, &i);
+	    /* what */
+	    {
+	      char * tz = set_fuseau("TZ=UTC");
+	      struct tm local;
+	      local.tm_year = vv[i++] - 1900;
+	      local.tm_mon = vv[i++] - 1;
+	      local.tm_mday = vv[i++];
+	      local.tm_hour = vv[i++];
+	      local.tm_min = vv[i++];
+	      local.tm_sec = vv[i++];
+	      local.tm_wday = 0;
+	      local.tm_yday = 0;    
+	      local.tm_isdst = 0;
+	      ds->dataset_what.start_time = mktime(&local);
+	      
+	      local.tm_year = vv[i++] - 1900;
+	      local.tm_mon = vv[i++] - 1;
+	      local.tm_mday = vv[i++];
+	      local.tm_hour = vv[i++];
+	      local.tm_min = vv[i++];
+	      local.tm_sec = vv[i++];
+	      local.tm_wday = 0;
+	      local.tm_yday = 0;    
+	      local.tm_isdst = 0;
+	      ds->dataset_what.end_time = mktime(&local);
+
+	      set_fuseau(tz);
+	    }
+	    {
+	      int k; 
+	      char * s = calloc(6, sizeof(char)); 
+	      for (k = 0; k < 6; ++k) {
+		s[k] = vv[i++];
+	      }
+	      for (k = 5; k >= 0; --k) {
+		if (s[k] ==  ' ') {
+		  s[k] = 0;
+		} else {
+		  break;
+		}
+	      }		
+	      ds->dataset_what.product = s;
+	    }
+
+	    /* where */
+	    ds->dataset_where.elangle = vv[i++];
+	    ds->dataset_where.nbins = vv[i++];
+	    ds->dataset_where.rscale = vv[i++];
+	    ds->dataset_where.rstart = vv[i++];
+	    ds->dataset_where.nrays = vv[i++];
+	    ds->dataset_where.a1gate = vv[i++];
+    
+	    /* parameters */
+	    ds->nparams = vv[i++];
+	    ds->dataset_data = calloc(ds->nparams, sizeof(odim_polar_dataset_data_t));
+    
+	    for (jj = 0; jj < ds->nparams; ++jj) {
+	      odim_polar_dataset_data_t * p = &ds->dataset_data[jj];
+	      int param;
+	      how(&p->how_string, &p->how_double, vv, &i);
+	      /* what */
+	      {
+		int k; 
+		char * s = calloc(6, sizeof(char)); 
+		for (k = 0; k < 6; ++k) {
+		  s[k] = vv[i++];
+		}
+		for (k = 5; k >= 0; --k) {
+		  if (s[k] ==  ' ') {
+		    s[k] = 0;
+		  } else {
+		    break;
+		  }
+		}		
+		p->dataset_what.quantity = s;
+	      }
+	      fprintf(stderr, "Quantity %s\n" , p->dataset_what.quantity);
+	      p->dataset_what.gain = 1;
+	      p->dataset_what.offset = 0;
+	      p->dataset_what.nodata = DBL_MAX;
+	      p->dataset_what.undetect = -DBL_MAX;
+      
+	      param = vv[i++];
+	      fprintf(stderr, "%d\n", param);
+	      assert(param == 0); /* zlib compresssion */
+	      
+	      /* data */
+	      {
+		int ndecomp = ds->dataset_where.nbins*ds->dataset_where.nrays*sizeof(varfl);
+		int k, n, j = 0, niter = vv[i++];
+		unsigned char * tempo = calloc(niter*65534, sizeof(unsigned char));
+		for (n = 0; n < niter; ++n) {
+		  int ncomp = vv[i++];
+		  for (k = 0; k < ncomp; ++k) {
+		    tempo[j++] = (vv[i+k] == MISSVAL ? 255 : vv[i+k]);
+		  }
+		  i += ncomp;
+		}
+		p->data = my_decompress(tempo, j, &ndecomp);
+		free(tempo);
+		fprintf (stderr,"--> %g %g %g\n", p->data[0], p->data[1], p->data[2]);
+	      }
+	    }
+	  }
+	}
+    /* ODIM stations */
         else if (bufr_check_fxy (d, 3,21,204)) {
 	  int i = 0, j;
 	  od->what.nstations = vv[i++] + 1; /* WMO station comes after */
@@ -447,7 +610,7 @@ int main (int argc, char *argv[])
     if (ok) ok = bufr_parse_out (dds, 0, ndescs - 1, our_callback, 1);
 
     /* fill the HDF5 ODIM data structure */
-    if (ok) write_hdf5(&odim_data, argv[2]);
+    if (ok) write_png(&odim_data, argv[2]);
 
     /* close bitstreams and free descriptor array */
     if (dds != (dd*) NULL)

@@ -259,7 +259,7 @@ static int write_opera(sect_1_t *s1_in, dd *descr, int iout, varfl *v, char *out
   s1.dcatst = s1_in->dcatst;        /* message subtype */
   s1.idcatst = 0;
   s1.vmtab = 13;                    /* version number of master table used */
-  s1.vltab = 7;                     /* version number of local table used */
+  s1.vltab = 8;                     /* version number of local table used */
 
   _bufr_edition = 4;
   header_dump(&s1);

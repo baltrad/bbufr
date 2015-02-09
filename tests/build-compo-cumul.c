@@ -525,7 +525,7 @@ static int decode_it (char *dad, size_t dadlen, char *da,
       fprintf(stderr, "Pixmap %ld %g\n", (unsigned long)global_val[0], global_val[1]);
       for (ii = 0; ii < nrows; ii++) {
 	for (jj = 0; jj < ncols; jj++) {
-	  pixmap3[ii*ncols + jj] = global_val[ii*ncols + jj + 1];
+	  pixmap3[ii*ncols + jj] = (global_val[ii*ncols + jj + 1] == MISSVAL ? 15 : global_val[ii*ncols + jj + 1]);
 	}
       }
       mindex = 0;

@@ -21,7 +21,7 @@
 ----------------------------------------------------------------------------
 
 FILE:          RLENC.C
-IDENT:         $Id: rlenc.c,v 1.11 2010/05/27 17:35:01 helmutp Exp $
+IDENT:         $Id: rlenc.c,v 1.12 2012/06/22 14:17:13 helmutp Exp $
 
 AUTHOR:        Konrad Koeck
                Institute of Communication and Wave Propagation, 
@@ -47,6 +47,9 @@ ISSUE       DATE            SCNREF      CHANGE DETAILS
 V2.0        18-DEC-2001     Koeck       Initial Issue
 
 $Log: rlenc.c,v $
+Revision 1.12  2012/06/22 14:17:13  helmutp
+corrected row/col order in P5 file
+
 Revision 1.11  2010/05/27 17:35:01  helmutp
 read/write values as float
 
@@ -434,7 +437,7 @@ int rlenc_from_file (char* infile, int nrows, int ncols, varfl* *vals,
 
     if (strstr (infile, ".pgm") != NULL || strstr (infile, ".PGM"))
     {
-        fscanf (fp, "P5 %d %d %d ", &i, &j, &n);
+        fscanf (fp, "P5 %d %d %d ", &j, &i, &n);
         if (i != nrows || j != ncols || (n > 255 && depth < 2)) 
         {
             fprintf (stderr, "error in pgm file '%s'\n", infile);
@@ -566,7 +569,7 @@ int rldec_to_file (char* outfile, varfl* vals, int depth, int* nvals)
 
     if (strstr (outfile, ".pgm") != NULL || strstr (outfile, ".PGM"))
     {
-        fprintf (fp, "P5\n%d %d\n%5d\n", nrows, ncols, depth == 1 ? 0xff : 0xffff);
+        fprintf (fp, "P5\n%d %d\n%5d\n", ncols, nrows, depth == 1 ? 0xff : 0xffff);
     }
 
     /* skip number of rows */

@@ -68,7 +68,7 @@ void deinit(FILE** fp, png_structpp png_ptr_ptr, png_infopp info_ptr_ptr){
   fclose(*fp);
 }
 
-#define size_palette 66
+#define size_palette 67
 
 void writeInfo(png_structp png_ptr, png_infop info_ptr, odim_comp_t* od, int width, int height){
   int count;
@@ -89,7 +89,8 @@ void writeInfo(png_structp png_ptr, png_infop info_ptr, odim_comp_t* od, int wid
 			    {255, 165,   0}, {255, 165,   0}, {255, 165,   0}, {255, 165,   0}, /* "Orange" */
 			    {160,  82,  45}, {160,  82,  45}, {160,  82,  45}, {160,  82,  45}, /* "sienna" */
 			    {255,   0,   0},                                                    /* "Red" */
-			    {255, 192, 203}};                                                   /* "Pink" */
+			    {255, 192, 203},                                                    /* "Pink" */
+			    {0, 0, 0}};                                                         /* "Black" */
   png_byte trans[size_palette];
 
   png_set_invert_alpha(png_ptr);
@@ -242,18 +243,18 @@ void writeData(png_structp png_ptr, png_infop info_ptr, odim_comp_t* od, char * 
 	/* not missing value 255 here; so it
 	   gives the border of the original domain on the final image */
 	if ((k < 0) || (k >= width)) {
-	  row[i + jj*width0] = 9;
+	  row[i + jj*width0] = size_palette-1;
 	  continue;
 	}
 	if ((l < 0) || (l >= height)) {
-	  row[i + jj*width0] = 9;
+	  row[i + jj*width0] = size_palette-1;
 	  continue;
 	}
 	
 	if (p[k + ll*width] == od->datasets[0].dataset_what.nodata) {
-	  row[i + jj*width0] = size_palette-1;
-	} else if (p[k + ll*width] == od->datasets[0].dataset_what.undetect) {
 	  row[i + jj*width0] = size_palette-2;
+	} else if (p[k + ll*width] == od->datasets[0].dataset_what.undetect) {
+	  row[i + jj*width0] = size_palette-1;
 	} else if (p[k + ll*width] > 255) {
 	  /* on French tests files, high dBZ values are used to locate radars positions */
 	  row[i + jj*width0] = p[k + ll*width];

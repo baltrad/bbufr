@@ -195,6 +195,7 @@ int read_tables (char *dir, int vmtab, int vltab, int subcent, int gencent)
     char *sep = "/";
 #endif
     
+    fprintf(stderr, "dir before=%s\n", dir);
     if (dir == NULL)
         dir = "";
 
@@ -204,7 +205,7 @@ int read_tables (char *dir, int vmtab, int vltab, int subcent, int gencent)
 
     /* read master tables, the filename is bufrtab[bd]_x.csv,
        where %d stands for the version number */
-
+    fprintf(stderr, "dir=%s\n", dir);
     sprintf (fn, "%s%sbufrtabb_%d.csv", dir, sep, vmtab);
     if (!read_tab_b (fn)) 
     {

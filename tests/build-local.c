@@ -343,7 +343,21 @@ static int our_callback (varfl val, int ind) {
                 b->img.scale.vals[j+1] = vv[i+6+3*j];
             }
         }
-        else {
+        else if (bufr_check_fxy (d, 3,21,5)) {
+        }
+        else if (bufr_check_fxy (d, 3,21,6)) {
+        }
+        else if (bufr_check_fxy (d, 3,21,7)) {
+        }
+        else if (bufr_check_fxy (d, 3,21,8)) {
+        }
+        else if (bufr_check_fxy (d, 3,21,192)) {
+        }
+        else if (bufr_check_fxy (d, 3,21,196)) {
+        }
+        else if (bufr_check_fxy (d, 3,29,192)) {
+        }
+	else {
             fprintf (stderr,
                      "Unknown sequence descriptor %d %d %d\n", d->f, d->x, d->y);
         }
@@ -413,6 +427,70 @@ static int our_callback (varfl val, int ind) {
             nrepet = nmax = val;
 	    b->img.data = calloc(b->img.ncols*b->img.nrows, sizeof(unsigned short));
         }
+	else if (bufr_check_fxy (d, 0,2,134)) {
+	}
+	else if (bufr_check_fxy (d, 0,2,192)) {
+	}
+	else if (bufr_check_fxy (d, 0,2,193)) {
+	}
+	else if (bufr_check_fxy (d, 0,2,198)) {
+	}
+	else if (bufr_check_fxy (d, 0,2,199)) {
+	}
+	else if (bufr_check_fxy (d, 0,2,200)) {
+	}
+	else if (bufr_check_fxy (d, 0,2,201)) {
+	}
+	else if (bufr_check_fxy (d, 0,2,202)) {
+	}
+	else if (bufr_check_fxy (d, 0,4,5)) {
+	}
+	else if (bufr_check_fxy (d, 0,4,6)) {
+	}
+	else if (bufr_check_fxy (d, 0,4,25)) {
+	}
+	else if (bufr_check_fxy (d, 0,4,26)) {
+	}
+	else if (bufr_check_fxy (d, 0,5,192)) {
+	}
+	else if (bufr_check_fxy (d, 0,6,192)) {
+	}
+	else if (bufr_check_fxy (d, 0,6,193)) {
+	}
+	else if (bufr_check_fxy (d, 0,25,193)) {
+	}
+	else if (bufr_check_fxy (d, 0,31,1)) {
+	}
+	else if (bufr_check_fxy (d, 0,49,192)) {
+	}
+	else if (bufr_check_fxy (d, 0,49,193)) {
+	}
+	else if (bufr_check_fxy (d, 0,49,194)) {
+	}
+	else if (bufr_check_fxy (d, 0,49,195)) {
+	}
+	else if (bufr_check_fxy (d, 0,49,196)) {
+	}
+	else if (bufr_check_fxy (d, 0,49,197)) {
+	}
+	else if (bufr_check_fxy (d, 0,49,198)) {
+	}
+	else if (bufr_check_fxy (d, 0,49,199)) {
+	}
+	else if (bufr_check_fxy (d, 0,49,211)) {
+	}
+	else if (bufr_check_fxy (d, 0,49,212)) {
+	}
+	else if (bufr_check_fxy (d, 0,49,213)) {
+	}
+	else if (bufr_check_fxy (d, 0,49,214)) {
+	}
+	else if (bufr_check_fxy (d, 0,49,215)) {
+	}
+	else if (bufr_check_fxy (d, 0,49,216)) {
+	}
+	else if (bufr_check_fxy (d, 0,48,192)) {
+	}
 	else {
             fprintf (stderr,
                      "Unknown element descriptor %d %d %d\n", d->f, d->x, d->y);

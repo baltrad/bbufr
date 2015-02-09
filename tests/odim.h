@@ -26,5 +26,5 @@ int split(char * args, char * delim, char* subdelim);
 char * getsplit_typ(char * args, char * delim, char * subdelim, int i0);
 unsigned char * getsplit_val(char * args, char * delim, char * subdelim, int i0);
 herr_t H5Acreatestring(hid_t root_id, char * name, char * s);
-char * H5Areadstring(hid_t root_id, char * name);
+char * H5Areadstring(hid_t root_id, const char * name);
 void header_dump(sect_1_t *s1);

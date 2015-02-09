@@ -6,6 +6,7 @@
 /* All units are S.I., except angles in decimal degrees, and reflectivty in dB */
 
 char * Conventions = "ODIM_H5/V2_0"; /* not used for compositing */
+char * Conventions_v2_1 = "ODIM_H5/V2_1"; /* not used for compositing */
 
 /* The ODIM data format allows a radar to be identified by various means, as
    WMO identifier is not available for all radars
@@ -27,6 +28,18 @@ typedef struct odim_polar_what_s {
   odim_station_t *source;  /* An array of length nstations */
 } odim_polar_what_t;
 
+typedef struct odim_polar_how_string_s {
+  const char * id;
+  char * value;
+  struct odim_polar_how_string_s * next;
+} odim_polar_how_string_t;
+
+typedef struct odim_polar_how_double_s {
+  const char * id;
+  varfl value;
+  struct odim_polar_how_double_s * next;
+} odim_polar_how_double_t;
+
 /* A geographic coordinate + height in WGS84 system */
 typedef struct odim_geo_point_3d_s {
   varfl lat;      /* Latitude */
@@ -45,6 +58,8 @@ typedef struct odim_polar_dataset_data_what_s {
 } odim_polar_dataset_data_what_t;
 
 typedef struct odim_polar_dataset_data_s {
+  odim_polar_how_string_t * how_string;
+  odim_polar_how_double_t * how_double;
   odim_polar_dataset_data_what_t dataset_what;
   varfl *data;          /* Scan data decoded with gain*code + offset formula; 
 			   dimension is nrays*nbins, see odim_polar_dataset_where_t
@@ -74,6 +89,8 @@ typedef struct odim_polar_dataset_where_s {
 /* Individual scan structure */
 
 typedef struct odim_polar_dataset_s {
+  odim_polar_how_string_t * how_string;
+  odim_polar_how_double_t * how_double;
   odim_polar_dataset_what_t dataset_what;    /* Time information about scan */ 
   odim_polar_dataset_where_t dataset_where;  /* Scan parameters */
   int nparams;                               /* Number of parameters for a scan (currently one) */
@@ -83,6 +100,8 @@ typedef struct odim_polar_dataset_s {
 /* This is our internal polar data structure for one radar */
 
 typedef struct odim_polar_s {
+  odim_polar_how_string_t * how_string;
+  odim_polar_how_double_t * how_double;
   odim_polar_what_t what;
   odim_geo_point_3d_t where;
   int nscans;                       /* Number of scans */

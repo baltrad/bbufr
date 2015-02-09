@@ -21,7 +21,7 @@
 ----------------------------------------------------------------------------
 
 FILE:          BUFR.C
-IDENT:         $Id: bufr.c,v 1.16 2009/05/15 15:34:12 helmutp Exp $
+IDENT:         $Id: bufr.c,v 1.19 2012/10/12 15:23:36 helmutp Exp $
 
 AUTHOR:        Konrad Koeck
                Institute of Communication and Wave Propagation, 
@@ -48,6 +48,16 @@ ISSUE       DATE            SCNREF      CHANGE DETAILS
 V2.0        18-DEC-2001     Koeck       Initial Issue
 
 $Log: bufr.c,v $
+Revision 1.19  2012/10/12 15:23:36  helmutp
+use wmo tables v14 and local tables v8 as default
+
+Revision 1.18  2012/10/12 14:54:53  helmutp
+implementation of special descriptors from bufr edition 4
+(increase scale, ref. and width; change width of ascii field)
+
+Revision 1.17  2010/02/15 11:22:55  helmutp
+changed missing value handling
+
 Revision 1.16  2009/05/15 15:34:12  helmutp
 api change to support subsets, bug fixes
 
@@ -134,10 +144,10 @@ Initial revision
 
 /* Define default values for the originating center (OPERA) 
    and the versions of master (WMO) and local (OPERA) table */
-#define SUBCENTER 255
-#define GENCENTER 255
-#define VMTAB 11
-#define VLTAB 4
+#define SUBCENTER 0
+#define GENCENTER 247
+#define VMTAB 14
+#define VLTAB 8
 
 /*===========================================================================*/
 /* internal data                                                             */
@@ -158,6 +168,8 @@ static bufrval_t* vals_ = NULL;  /* structure for holding data values */
 static dd cf_spec_des[MAX_ADDFIELDS];    /* remember changed descriptors */
 static varfl cf_spec_val[MAX_ADDFIELDS]; /* original referecne values */
 static int cf_spec_num = 0;              /* number of changed descriptors */ 
+static int ccitt_dw = 0;                 /* data width change 2 8 yyy */
+static int incr_scale = 0;               /* scale change 2 7 yyy */
 
 /*===========================================================================*/
 /* internal functions                                                        */
@@ -805,6 +817,9 @@ int bufr_parse_new (dd *descs, int start, int end,
                     des[_desc_special]->el->d.x = descr.x;
                     des[_desc_special]->el->d.y = descr.y;
                     des[_desc_special]->el->dw = des[i]->el->dw;
+                    if (ccitt_dw > 0)
+                        des[_desc_special]->el->dw = 8 * ccitt_dw;
+
                     tmp = des[_desc_special]->el->unit;
                     des[_desc_special]->el->unit = des[i]->el->unit;
                     if (!(*inputfkt) (&v, _desc_special)) return 0;
@@ -817,7 +832,11 @@ int bufr_parse_new (dd *descs, int start, int end,
                   string and store them using the special descriptor 
                   we have created. */
 
-                for (j = 0; j < des[i]->el->dw / 8; j ++) { 
+                nrep = des[i]->el->dw / 8;
+                if (ccitt_dw > 0)
+                    nrep = ccitt_dw;
+                    
+                for (j = 0; j < nrep; j ++) { 
 
                     if (!(*inputfkt) (&d, ccitt_special)) return 0;
                     if (!(*outputfkt) (d, ccitt_special)) return 0;
@@ -978,7 +997,7 @@ int bufr_parse_new (dd *descs, int start, int end,
                     des[_desc_special]->el->d.y = descr.y;
                     des[_desc_special]->el->dw = descr.y * 8;
                     tmp = des[_desc_special]->el->unit;
-                    des[_desc_special]->el->unit = des[i]->el->unit;
+                    des[_desc_special]->el->unit = "CCITT IA5";
                     if (!(*inputfkt) (&v, _desc_special)) return 0;
                     if (!(*outputfkt) (0, _desc_special)) return 0;
                     des[_desc_special]->el->unit = tmp;
@@ -1140,8 +1159,14 @@ int bufr_parse_new (dd *descs, int start, int end,
                 continue;
 
             /* BUFR edition 4 only */
-            /* case 7: increase scale, ref. and width */
-            /* case 8: change width of CCITT field */
+            case 7:  /* increase scale, ref. and width */
+                incr_scale = descr.y;
+                continue;
+                
+            case 8: /* change width of CCITT field */
+                ccitt_dw = descr.y;
+                continue;
+                
             /* case 41: event */
             /* case 42: conditioning event */
             /* case 43: categorical forecast */
@@ -2195,6 +2220,7 @@ static int bufr_val_to_datasect (varfl val, int ind)
 {
     unsigned long l;
     int ret, wi, scale, ccitt, no_change = 0;
+    varfl refval;
 
     assert (datah_ >= 0);
 
@@ -2222,10 +2248,18 @@ static int bufr_val_to_datasect (varfl val, int ind)
     if (no_change) {
         wi = des[ind]->el->dw;
         scale = des[ind]->el->scale;
+        refval = des[ind]->el->refval;
     }
     else {
         wi = des[ind]->el->dw + dw - 128;
         scale = des[ind]->el->scale + sc - 128;
+        refval = des[ind]->el->refval;
+        if (incr_scale > 0)
+        {
+            wi = des[ind]->el->dw + (10 * incr_scale + 2) / 3;
+            scale = des[ind]->el->scale + incr_scale;
+            refval = des[ind]->el->refval * pow (10, incr_scale);
+        }
     }
 
     /* If this is a missing value set all bits to 1 */
@@ -2245,8 +2279,8 @@ static int bufr_val_to_datasect (varfl val, int ind)
                 l = (unsigned long) val;
         } 
         else
-            l = (unsigned long) (val * pow (10.0, (varfl) scale) 
-                             - des[ind]->el->refval + 0.5);  
+            l = (unsigned long) (val * pow (10.0, (varfl) scale) - refval + 0.5);
+
         /* + 0.5 to round to integer values */
 
         if (bitio_o_append (datah_, l, wi) == -1) ret = 0;
@@ -2537,6 +2571,7 @@ static int bufr_val_from_datasect (varfl *val, int ind)
     int data_width;
     int scale, no_change = 0, ccitt;
     unsigned long l, mv;
+    varfl refval;
 
     assert (datah_ >= 0);
 
@@ -2562,10 +2597,18 @@ static int bufr_val_from_datasect (varfl *val, int ind)
     if (no_change) {
         data_width = des[ind]->el->dw;
         scale = des[ind]->el->scale;
+        refval = des[ind]->el->refval;
     }
     else {
         data_width = des[ind]->el->dw + dw - 128;
         scale = des[ind]->el->scale + sc - 128;
+        refval = des[ind]->el->refval;
+        if (incr_scale > 0)
+        {
+            data_width = des[ind]->el->dw + (10 * incr_scale + 2) / 3;
+            scale = des[ind]->el->scale + incr_scale;
+            refval = des[ind]->el->refval * pow (10, incr_scale);
+        }
     }
     
     if (!bitio_i_input (datah_, &l, data_width)) {
@@ -2579,10 +2622,10 @@ static int bufr_val_from_datasect (varfl *val, int ind)
   
     mv = (1UL << data_width) - 1;
 
-    if (l == mv && des[ind]->el->d.x != 31 && 
+    if (l == mv && des[ind]->el->d.x != 31 && ! _opera_mode) /*
         !(des[ind]->el->d.x == 30 && des[ind]->el->d.y <= 4 && _opera_mode) &&
         !(des[ind]->el->d.x == 13 && des[ind]->el->d.y == 11 && _opera_mode) &&
-        !(des[ind]->el->d.x == 21 && des[ind]->el->d.y == 14 && _opera_mode)) {
+        !(des[ind]->el->d.x == 21 && des[ind]->el->d.y == 14 && _opera_mode)) */ {
             *val = MISSVAL;
     }
     else if (ind == cf_special) 
@@ -2592,8 +2635,7 @@ static int bufr_val_from_datasect (varfl *val, int ind)
             *val = -*val;
     }
     else {
-        *val = ((varfl) l + des[ind]->el->refval) / 
-            pow (10.0, (varfl) (scale));
+        *val = ((varfl) l + refval) / pow (10.0, (varfl) (scale));
     }
     return 1;
 }

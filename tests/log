@@ -13,8 +13,10 @@ Input file header:
    18    day                                
     6    hour                               
     5    minute                             
-PVR 2359296 100000
-Quality 2359296 100000
+dir before=../tables
+dir=../tables
+PVR 2359296 3
+Quality 2359296 255
 Pixmap 2359296 65535
 la
 F X Y output: 0 30 31
@@ -117,6 +119,8 @@ Output file header:
    18    day                                
     6    hour                               
     5    minute                             
+dir before=../tables
+dir=../tables
 Input file header:
     0    master table used                  
     0    subcenter                          
@@ -132,6 +136,8 @@ Input file header:
    30    day                                
    13    hour                               
     0    minute                             
+dir before=../tables
+dir=../tables
 Reallocated memory for global_val to size 700000
 Reallocated memory for global_val to size 900000
 Reallocated memory for global_val to size 1100000
@@ -163,6 +169,8 @@ Output file header:
    30    day                                
    13    hour                               
     0    minute                             
+dir before=../tables
+dir=../tables
 Input file header:
     0    master table used                  
     0    subcenter                          
@@ -178,56 +186,10 @@ Input file header:
    27    day                                
    18    hour                               
     0    minute                             
-Unknown element descriptor 0 2 192
-Unknown element descriptor 0 2 193
-Unknown element descriptor 0 25 193
-Unknown element descriptor 0 2 202
-Unknown sequence descriptor 3 21 5
-Unknown sequence descriptor 3 21 6
-Unknown sequence descriptor 3 21 7
-Unknown element descriptor 0 6 193
-Unknown element descriptor 0 2 198
-Unknown sequence descriptor 3 21 192
-Unknown element descriptor 0 2 199
-Unknown element descriptor 0 2 200
-Unknown element descriptor 0 2 201
-Unknown sequence descriptor 3 21 196
-Unknown sequence descriptor 3 29 192
-Unknown element descriptor 0 5 192
-Unknown element descriptor 0 6 192
-Unknown element descriptor 0 4 25
-Unknown element descriptor 0 4 26
-Unknown sequence descriptor 3 21 8
-Unknown element descriptor 0 49 192
-Unknown element descriptor 0 49 193
-Unknown element descriptor 0 49 194
-Unknown element descriptor 0 49 195
-Unknown element descriptor 0 49 196
-Unknown element descriptor 0 49 197
-Unknown element descriptor 0 49 198
-Unknown element descriptor 0 49 199
-Unknown element descriptor 0 49 211
-Unknown element descriptor 0 49 212
-Unknown element descriptor 0 49 213
-Unknown element descriptor 0 49 214
-Unknown element descriptor 0 49 215
-Unknown element descriptor 0 49 216
+dir before=../tables
+dir=../tables
  fxy: 1 4 0
-Unknown element descriptor 0 31 1
-Unknown element descriptor 0 2 134
-Unknown element descriptor 0 2 134
-Unknown element descriptor 0 4 5
-Unknown element descriptor 0 4 6
  fxy: 1 1 0
-Unknown element descriptor 0 31 1
-Unknown element descriptor 0 48 192
-Unknown element descriptor 0 48 192
-Unknown element descriptor 0 48 192
-Unknown element descriptor 0 48 192
-Unknown element descriptor 0 48 192
-Unknown element descriptor 0 48 192
-Unknown element descriptor 0 48 192
-Unknown element descriptor 0 48 192
  fxy: 1 3 0
 Output file header:
     0    master table used                  
@@ -244,6 +206,8 @@ Output file header:
    27    day                                
    18    hour                               
     0    minute                             
+dir before=../tables
+dir=../tables
 Input file header:
     0    master table used                  
     0    subcenter                          
@@ -259,6 +223,8 @@ Input file header:
    27    day                                
    18    hour                               
     0    minute                             
+dir before=../tables
+dir=../tables
 F X Y output: 3 1 1
 F X Y output: 3 1 194
 F X Y output: 3 1 193
@@ -288,6 +254,8 @@ Output file header:
    27    day                                
    18    hour                               
     0    minute                             
+dir before=../tables
+dir=../tables
 Input file header:
     0    master table used                  
     0    subcenter                          
@@ -303,6 +271,8 @@ Input file header:
    29    day                                
    14    hour                               
    20    minute                             
+dir before=../tables
+dir=../tables
 F X Y output: 3 1 1
 F X Y output: 3 1 11
 F X Y output: 3 1 12
@@ -331,6 +301,8 @@ Output file header:
    29    day                                
    14    hour                               
    20    minute                             
+dir before=../tables
+dir=../tables
 Input file header:
     0    master table used                  
     0    subcenter                          
@@ -346,6 +318,8 @@ Input file header:
    29    day                                
    14    hour                               
    20    minute                             
+dir before=../tables
+dir=../tables
 F X Y output: 3 1 32
 F X Y output: 0 2 3
 F X Y output: 0 2 101
@@ -392,6 +366,8 @@ Output file header:
    29    day                                
    14    hour                               
    20    minute                             
+dir before=../tables
+dir=../tables
 Input file header:
     0    master table used                  
     0    subcenter                          
@@ -407,6 +383,8 @@ Input file header:
    19    day                                
    22    hour                               
     7    minute                             
+dir before=../tables
+dir=../tables
 ncols= 429 nrows= 429
 taille vraie: 184320 taille calculee: 184041
 taille: 184320
@@ -436,6 +414,8 @@ Output file header:
    19    day                                
    22    hour                               
     7    minute                             
+dir before=../tables
+dir=../tables
 Input file header:
     0    master table used                  
     0    subcenter                          
@@ -451,6 +431,8 @@ Input file header:
    22    day                                
    11    hour                               
    30    minute                             
+dir before=../tables
+dir=../tables
 Fini 262144
 F X Y output: 3 1 1
 F X Y output: 3 1 194
@@ -483,3 +465,5 @@ Output file header:
    22    day                                
    11    hour                               
    30    minute                             
+dir before=../tables
+dir=../tables

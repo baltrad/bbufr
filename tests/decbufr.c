@@ -21,13 +21,13 @@
 ----------------------------------------------------------------------------
 
 FILE:          DECBUFR.C
-IDENT:         $Id: decbufr.c,v 1.16 2010/04/13 12:39:06 helmutp Exp $
+IDENT:         $Id: decbufr.c,v 1.17 2012/10/12 14:58:25 helmutp Exp $
 
 AUTHORS:       Juergen Fuchsberger, Helmut Paulitsch, Konrad Koeck
                Institute of Communication and Wave Propagation, 
                Technical University Graz, Austria
 
-VERSION NUMBER:3.1
+VERSION NUMBER:3.2
 
 DATE CREATED:  18-DEC-2001
 
@@ -36,6 +36,9 @@ STATUS:        DEVELOPMENT FINISHED
 AMENDMENT RECORD:
 
 $Log: decbufr.c,v $
+Revision 1.17  2012/10/12 14:58:25  helmutp
+update version info
+
 Revision 1.16  2010/04/13 12:39:06  helmutp
 update version number
 
@@ -115,7 +118,7 @@ Initial revision
 char *usage = 
 "Usage: decbufr [-v] [-d tabdir] [-s1 sect1] input_file output_file [image_file]\n"
 "       decbufr -show [-m mtab] [-l ltab] [-o ocent] [-s subcent] [f x y]\n";
-char *version = "decbufr V3.1, 12-April-2010\n";
+char *version = "decbufr V3.2beta, 5-October-2012\n";
 
 /*===========================================================================*/
 
@@ -135,7 +138,7 @@ int main (int argc, char** argv)
     memset (&s1, 0, sizeof (sect_1_t));
 
     /* check command line parameter */
-
+    fprintf(stderr, "Parsing command line\n");
     while (argc > 1 && *argv[1] == '-')
     {
         if (*(argv[1] + 1) == 'v')
@@ -148,6 +151,7 @@ int main (int argc, char** argv)
                 exit (EXIT_FAILURE);
             }
             table_dir = argv[2];
+            fprintf(stderr, "table_dir=%s\n",table_dir);
             argc--;
             argv++;
         }
@@ -167,10 +171,10 @@ int main (int argc, char** argv)
             fprintf (stderr, "Invalid parameter %s\n\n%s", argv[1], usage);
             exit (EXIT_FAILURE);
         }
+    fprintf(stderr, "ABC\n");
         argc--;
         argv++;
     }
-
     /* Get input- and output-filenames from the command-line */
 
     if (argc < 3)
@@ -209,6 +213,7 @@ int main (int argc, char** argv)
     }
 
     /* read descriptor tables */
+            fprintf(stderr, "table_dir before read_tables=%s\n",table_dir);
 
     if (read_tables (table_dir, s1.vmtab, s1.vltab, s1.subcent, 
                      s1.gencent) < 0) {

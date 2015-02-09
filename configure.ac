@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(bufr-opera-mf, 1.18)
+AC_INIT(bufr-opera-mf, 1.21)
 AC_CONFIG_SRCDIR([lib/bufr.h])
 AM_INIT_AUTOMAKE([foreign no-dependencies no-define])
 AC_CONFIG_HEADERS([lib/config.h])
@@ -109,9 +109,9 @@ AC_C_CONST
 AC_TYPE_SIZE_T
 
 # Checks for library functions.
-AC_FUNC_MALLOC
+#AC_FUNC_MALLOC
 AC_FUNC_MEMCMP
-AC_FUNC_REALLOC
+#AC_FUNC_REALLOC
 AC_CHECK_FUNCS([memset pow strchr])
 
 CFLAGS="$CFLAGS $CCSHARED"
