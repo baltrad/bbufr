@@ -1,0 +1,8 @@
+opt/baltrad/bbufr/include/bitio.h
+opt/baltrad/bbufr/include/bufr.h
+opt/baltrad/bbufr/include/bufr_io.h
+opt/baltrad/bbufr/include/bufrlib.h
+opt/baltrad/bbufr/include/desc.h
+opt/baltrad/bbufr/include/rlenc.h
+opt/baltrad/bbufr/lib/libOperaBufr.a
+opt/baltrad/bbufr/share/bbufr

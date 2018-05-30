@@ -10,8 +10,8 @@ EXTRA_DIST = bufrtabb_13.csv bufrtabb_12.csv bufrtabb_11.csv bufrtabb_6.csv bufr
           bufrtabb_16.csv bufrtabd_16.csv 
 
 install-data-local:
-	test -z "$(prefix)/share/bbufr/tables/" || $(MKDIR_P) "$(prefix)/share/bbufr/tables/"
+	test -z "$(DESTDIR)$(prefix)/share/bbufr/tables/" || $(MKDIR_P) "$(DESTDIR)$(prefix)/share/bbufr/tables/"
 	@for file in $(EXTRA_DIST); do \
-		$(install_sh_DATA) $$file "$(prefix)/share/bbufr/tables/" || exit $$?; \
+		$(install_sh_DATA) $$file "$(DESTDIR)$(prefix)/share/bbufr/tables/" || exit $$?; \
 	done
           
