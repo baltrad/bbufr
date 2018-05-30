@@ -43,7 +43,5 @@ make install DESTDIR=%{buildroot}
 %{_prefix}/include/desc.h
 %{_prefix}/include/rlenc.h
 %{_prefix}/%{_lib}/libOperaBufr.a
-%dirs
-%{_prefix}/share
-
+%{_prefix}/share/bbufr/tables
 %changelog
