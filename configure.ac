@@ -7,6 +7,7 @@ AC_CONFIG_SRCDIR([lib/bufr.h])
 AM_INIT_AUTOMAKE([foreign no-dependencies no-define])
 AC_CONFIG_HEADERS([lib/config.h])
 AC_CONFIG_FILES([Makefile lib/Makefile tables/Makefile tests/Makefile view/Makefile])
+m4_include([m4/check_proj.m4])
 
 # Checks for programs.
 AC_PROG_CC
@@ -82,8 +83,21 @@ AC_MSG_RESULT($CCSHARED)
 
 # Checks for libraries.
 AC_CHECK_LIB([m], [pow])
-AC_CHECK_LIB([proj], [pj_init_plus],, 
-  [AC_MSG_ERROR([cannot find PROJ library, fatal])])
+
+
+CHECK_PROJ([keepvar])
+
+if [[ "$PROJ_SUPPRESSED" = "yes" ]]; then
+  AC_MSG_ERROR([proj required and should not be suppressed.])  
+fi
+
+if [[ "$PROJ_FOUND" != "yes" ]]; then
+  AC_MSG_ERROR([proj does not seem to be installed on your platform.])  
+fi
+
+AC_ARG_VAR([PKG_CPPFLAGS],[custom C preprocessor flags for packages compilation])
+AC_ARG_VAR([PKG_LIBS],[custom libraries for package compilation])
+
 AC_CHECK_LIB([z], [compress2],, 
   [AC_MSG_ERROR([cannot find zlib library, fatal])])
 
@@ -99,7 +113,7 @@ AC_CHECK_LIB([png], [png_write_info],,
 
 # Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS([memory.h stdlib.h string.h proj_api.h zlib.h hdf5.h],,
+AC_CHECK_HEADERS([memory.h stdlib.h string.h zlib.h hdf5.h],,
   [AC_MSG_ERROR([cannot find some system header file, fatal])])
 AC_CHECK_HEADERS([png.h],,
   [AC_MSG_WARN([cannot find PNG header file, view directory programs won't be built])])
